@@ -1,22 +1,24 @@
-Mapping out my MongoDB Structure: 
+<!-- Mapping out my MongoDB Structure: 
 
 We have one major choice to make at this point - do the efficient thing, and use foreign keys to link our CCS collection to the User collection that we'll need to have user login work properly, OR do the brute force thing and just have our collection include BOTH (i.e. User 1 {dataBitOne: "", dataBitTwo: "", etc}, User 2 {etc, etc}). Benefits of one: probably faster and definitely cleaner. Benefits of two: easier to intuit and doesn't require Foreign Keys. 
 
 ...Let's just go with one. We can default back to two if one is too complicated. 
 
 Serious question: if in doubt, should I just default to a String? Like, if we're not doing any logic with the entered values, is there a downside to just having them be Strings instead of Integers? 
+ -->
 
-
-user document (an array of the following object model)
+<!-- user document (an array of the following object model) -->
 {
-  _id: ObjectId1 (auto-generated), 
-  email: "" <-- include logic to check @something.com is present, 
-  password: "" <-- will need encryption of some kind, and probably length logic at minimum
+  <!-- _id: ObjectId1 (auto-generated),  -->
+  email: String,
+  <!-- include logic to check @something.com is present, -->
+  password: String, 
+  <!-- will need encryption of some kind, and probably length logic at minimum -->
 }
 
-character document (array of following object model; inclusion of user_id simply allows us to access that data if necessary; is this the best way of doing things? Rather, what does having the user info let us do? Thought for later.)
+// <!-- character document (array of following object model; inclusion of user_id simply allows us to access that data if necessary; is this the best way of doing things? Rather, what does having the user info let us do? Thought for later.) -->
 {
-  _id: ObjectId2 (auto-generated), 
+  // <!--_id: ObjectId2 (auto-generated), -->
   user_id: ObjectId1, 
   character_description: {
     character_name: String, 
@@ -39,38 +41,40 @@ character document (array of following object model; inclusion of user_id simply
     hair_description: String,
     eyes_description: String,
   }, 
-  ability_scores: { <-- ideally, we could skip storing the mods and just invoke logic to calculate them instead; would save space and provide a feature in one. We might also be able to make this into an array with each position corresponding to ability_scores[0] through [11].
+  ability_scores: { 
+    // <!-- ideally, we could skip storing the mods and just invoke logic to calculate them instead; would save space and provide a feature in one. We might also be able to make this into an array with each position corresponding to ability_scores[0] through [11]; probably not worth it. As-is, the scores and mods let us do a bit of auto-calcing. -->
     str_score: Integer,
     dex_score: Integer,
     con_score: Integer,
     int_score: Integer,
     wis_score: Integer,
     cha_score: Integer,
-    str_mod: Integer,
-    dex_mod: Integer,
-    con_mod: Integer,
-    int_mod: Integer,
-    wis_mod: Integer,
-    cha_mod: Integer,
+    // <!-- str_mod: Integer, <-- these would be irrelevant in that case. 
+    // dex_mod: Integer,
+    // con_mod: Integer,
+    // int_mod: Integer,
+    // wis_mod: Integer,
+    // cha_mod: Integer, -->
     temp_str_score: Integer,
     temp_dex_score: Integer,
     temp_con_score: Integer,
     temp_int_score: Integer,
     temp_wis_score: Integer,
     temp_cha_score: Integer,
-    temp_str_mod: Integer,
-    temp_dex_mod: Integer,
-    temp_con_mod: Integer,
-    temp_int_mod: Integer,
-    temp_wis_mod: Integer,
-    temp_cha_mod: Integer,
+    // <!-- temp_str_mod: Integer,
+    // temp_dex_mod: Integer,
+    // temp_con_mod: Integer,
+    // temp_int_mod: Integer,
+    // temp_wis_mod: Integer,
+    // temp_cha_mod: Integer, -->
   }, 
   defenses: {
     ac: Integer,
     ac_bonuses: [
       {
         ac_label: String, 
-        ac_value: Integer <-- can we do it this way? This would let us make the actual bonuses and penalties completely up the the user, right? And then we could just iterate over the array, adding {label} and {value} pairs to the modal! 
+        ac_value:  Integer 
+        // <!-- can we do it this way? This would let us make the actual bonuses and penalties completely up the the user, right? And then we could just iterate over the array, adding {label} and {value} pairs to the modal!  -->
       }
     ],
     touch_ac: Integer, 
@@ -103,7 +107,8 @@ character document (array of following object model; inclusion of user_id simply
       }
     ],
     resistances: String,
-    immunities: String, <-- these two should probably be expanded in some way, but for now this is fine
+    immunities: String, 
+    // <!-- these two should probably be expanded in some way, but for now this is fine -->
     cmd: Integer, 
     cmd_bonuses: [
       {
@@ -140,7 +145,8 @@ character document (array of following object model; inclusion of user_id simply
     melee_attacks: [
       {
         ma_label: String,
-        ma_vector: String, <-- that is, what you're using to attack, whether weapon or spell
+        ma_vector: String, 
+        // <!-- that is, what you're using to attack, whether weapon or spell -->
         ma_total_attack_bonus: String,
         ma_attack_bonuses: [
           {
@@ -167,7 +173,8 @@ character document (array of following object model; inclusion of user_id simply
     ranged_attacks: [
       {
         ra_label: String,
-        ra_vector: String, <-- that is, what you're using to attack, whether weapon or spell
+        ra_vector: String, 
+        // <!-- that is, what you're using to attack, whether weapon or spell -->
         ra_total_attack_bonus: String,
         ra_attack_bonuses: [
           {
@@ -196,7 +203,8 @@ character document (array of following object model; inclusion of user_id simply
   skills_section: {
     total_ranks: Integer,
     armor_check_penalty: Integer,
-    skills: [ <-- trained only and skill name should be hard coded, I suppose... or maybe set them as default inputs on the front-end, such that they're there as "Acrobatics" or whatever and are saved as if they were real inputs? That would even solve my 'default' problem. Investigate that! MVP might just have the user fill in all of this, however. 
+    skills: [ 
+      // <!-- trained only and skill name should be hard coded, I suppose... or maybe set them as default inputs on the front-end, such that they're there as "Acrobatics" or whatever and are saved as if they were real inputs? That would even solve my 'default' problem. Investigate that! MVP might just have the user fill in all of this, however.  -->
       {
         class_skill: {
           type: Boolean, 
@@ -207,16 +215,19 @@ character document (array of following object model; inclusion of user_id simply
           default: false,
         },
         skill_name: String,
-        skill_total: Integer, <-- again, do we want Integer or String; latter lets us use + symbol...
+        skill_total: Integer, 
+        // <!-- again, do we want Integer or String; latter lets us use + symbol... -->
         ability_modifier: {
           ability_label: {
             type: String, 
-            default: "Str" <-- might be unnecessary; see above
+            default: "Str" 
+            // <!-- might be unnecessary; see above; as-is, this makes ALL skills default to STR... -->
           },
           ability_value: Integer
         },
         skill_ranks: Integer,
-        class_skill_bonus: Integer, <-- might want this to be internal logic; if (class_skill), class_skill_bonus value = 3; display it automatically
+        class_skill_bonus: Integer, 
+        // <!-- might want this to be internal logic; if (class_skill), class_skill_bonus value = 3; display it automatically -->
         skill_bonuses: [
           {
             skill_label: String,
@@ -295,8 +306,10 @@ character document (array of following object model; inclusion of user_id simply
       }
     ]
   },
-  subsystems: { <-- MVP would be getting these 4 working properly; adding more should be easy after that
-    vancian_spells: [ <-- make two buttons; prepared needs 0th spells/day and doesn't need spells known section, while spontaneous doesn't need 0th/day but does need spells known section. Data structure can be the same for both, though. 
+  subsystems: { 
+    // <!-- MVP would be getting these 4 working properly; adding more should be easy after that -->
+    vancian_spells: [ 
+      // <!-- make two buttons; prepared needs 0th spells/day and doesn't need spells known section, while spontaneous doesn't need 0th/day but does need spells known section. Data structure can be the same for both, though. -->
       {
         spell_dcs: [
           {
@@ -326,7 +339,8 @@ character document (array of following object model; inclusion of user_id simply
             9th: Integer, 
           }
         ],
-        spells_remaining: [ <-- mainly for spontaneous
+        spells_remaining: [ 
+          // <!-- mainly for spontaneous -->
           {
             0th: Integer,
             1st: Integer,
@@ -356,7 +370,8 @@ character document (array of following object model; inclusion of user_id simply
         ],
         spell_levels: [
           {
-            0th_spells: [ <--- is there a way to abstract this? Otherwise, I'm going to turn the spells array into a separate document to reference with a foreign key. We'll have to do this 9 more times, otherwise. 
+            0th_spells: [ 
+              // <!-- is there a way to abstract this? Otherwise, I'm going to turn the spells array into a separate document to reference with a foreign key. We'll have to do this 9 more times, otherwise. -->
               {
                 spell_name: String,
                 spell_level: Integer,
@@ -412,7 +427,8 @@ character document (array of following object model; inclusion of user_id simply
     sphere_practitioning: [
       {
         practitioner_modifier: String,
-        spheres: [ <-- button creates a new section w/ header; later arrays make buttons
+        spheres: [ 
+          // <!-- button creates a new section w/ header; later arrays make buttons that pull up modals -->
           {
             sphere_name: String,
             sphere_level: Integer,
@@ -466,3 +482,6 @@ character document (array of following object model; inclusion of user_id simply
     ]
   }
 }
+
+
+Let's think through the logic of this website a bit. You start it up and sign up for an account for the first time. You enter your email and password info, and are redirected to the Home Page. At this point, the login/sign up button in the top right should now be a 'logout button'. Here, you click a button to "Create a New Character". This should do two things immediately. First, it creates a new instance of the Character Schema, generates the associated ID, and links the user's ID from req.params, creating a foreign key/manual reference between the two; specifically, the user should have the character's new Id added to an array of such Ids on the User's schema. This will allow the user to access multiple characters. Later, we'll generate "View Character" buttons based on those Ids. Once that's saved, the user will be redirected to the character sheet in question. The Character ID will be saved in the URL extension for req.params later. The Character sheet should start out in a 'default' state - plenty of spaces, but even more buttons used to specify lots of information that isn't necessary in the average game session. MOST things on the page will initially be pre-generated text, textareas, or buttons. Ideally, this page should have some form of auto-save. Barring that, a prominent SAVE button on the Navbar and at the bottom of the page will do in a pinch. Ah, that's important: each modal that pops up on button press - the text area for defining additional details about a spell, weapon, or stat - has its own save button. Pressing it does two things: saves that information to the database, and creates a button that is associated with that array item. For example, creating a Weapon should open up a box with Label, Description, and Value text boxes, with a save button and a discard button on the bottom. Clicking discard should simply close the window, clearing out the text boxes if necessary. Clicking save should instead take the information printed into those boxes and make an axios call to the backend to save that information with Mongoose. Upon success, it should clear the text boxes, close the window, and then generate a button on the DOM that references those values (or at least the Label). That button should then be able to open up that same window with the references already filled out, requiring another axios call for that information. 

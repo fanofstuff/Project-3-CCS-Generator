@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+// import logo from "./logo.svg";
+// import "./App.css";
 import axios from "axios";
+import API from "./utils/API";
 
-function App() {
-  useEffect(() => {
+import React, { Component } from "react";
+
+class App extends Component {
+  componentDidMount() {
     axios
       .get("/api/config")
       .then((response) => {
@@ -13,25 +15,29 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  }
+
+  handleButton = (query) => {
+    API.getCharacters()
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err))
+  }
+
+  characterCreate = (query) => {
+    API.createCharacter({"character_description.character_name":"Waldo of Wallaby"})
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err))
+  }
+
+  render() {
+    return (
+    <div>
+      Hello World
+      <button onClick={this.handleButton}>Click to Console Log All Characters</button>
+      <button onClick={this.characterCreate}>Click to Create a Character</button>
     </div>
-  );
+    );
+  }
 }
 
 export default App;
