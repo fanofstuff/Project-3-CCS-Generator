@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class CharacterInput extends Component {
+class ListInput extends Component {
   constructor(props) {
     super(props);
     this.handleEvent = this.handleEvent.bind(this);
@@ -9,7 +9,6 @@ class CharacterInput extends Component {
   handleEvent(e) {
     this.props.onTextChange(e.target);
   }
-
 
   render() {
     return (
@@ -21,9 +20,11 @@ class CharacterInput extends Component {
           <textarea
             className="form-control"
             rows="1"
+            id={this.props.id}
             value={this.props.value}
             onChange={this.handleEvent}
             name={this.props.name}
+            section={this.props.section}
           ></textarea>
         </div>
       </div>
@@ -31,4 +32,4 @@ class CharacterInput extends Component {
   }
 }
 
-export default CharacterInput;
+export default ListInput;

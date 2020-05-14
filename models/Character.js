@@ -29,13 +29,9 @@ const CharacterSchema = new Schema(
     },
     class_levels: [
       {
-        class_name: {
+        class_name_and_level: {
           type: String,
           default: "",
-        },
-        class_level: {
-          type: Number,
-          default: 1,
         },
       },
     ],
@@ -146,27 +142,36 @@ const CharacterSchema = new Schema(
     },
     ac_bonuses: [
       {
-        ac_label: {
+        ac_label_and_value: {
           type: String,
           default: "",
         },
-        ac_value: {
-          type: Number,
-          default: 0,
-        },
-        // <!-- can we do it this way? This would let us make the actual bonuses and penalties
-        // completely up the the user, right? And then we could just iterate over the array,
-        // adding {label} and {value} pairs to the modal!  -->
       },
     ],
     touch_ac: {
       type: Number,
       default: 10,
     },
+    touch_ac_bonuses: [
+      {
+        touch_ac_label_and_value: {
+          type: String,
+          default: "",
+        },
+      },
+    ],
     flat_footed_ac: {
       type: Number,
       default: 10,
     },
+    ff_ac_bonuses: [
+      {
+        ff_ac_label_and_value: {
+          type: String,
+          default: "",
+        },
+      },
+    ],
     total_hp: {
       type: Number,
       default: 10,
@@ -179,7 +184,7 @@ const CharacterSchema = new Schema(
       type: Number,
       default: 0,
     },
-    hit_die: {
+    temp_hp: {
       type: String,
       default: "",
     },
@@ -197,13 +202,9 @@ const CharacterSchema = new Schema(
     },
     fort_bonuses: [
       {
-        fort_label: {
+        fort_label_and_value: {
           type: String,
           default: "",
-        },
-        fort_value: {
-          type: Number,
-          default: 0,
         },
       },
     ],
@@ -213,13 +214,9 @@ const CharacterSchema = new Schema(
     },
     ref_bonuses: [
       {
-        ref_label: {
+        ref_label_and_value: {
           type: String,
           default: "",
-        },
-        ref_value: {
-          type: Number,
-          default: 0,
         },
       },
     ],
@@ -229,13 +226,9 @@ const CharacterSchema = new Schema(
     },
     will_bonuses: [
       {
-        will_label: {
+        will_label_and_value: {
           type: String,
           default: "",
-        },
-        will_value: {
-          type: Number,
-          default: 0,
         },
       },
     ],
@@ -254,80 +247,61 @@ const CharacterSchema = new Schema(
     },
     cmd_bonuses: [
       {
-        cmd_label: {
+        cmd_label_and_value: {
           type: String,
           default: "",
-        },
-        cmd_value: {
-          type: Number,
-          default: 0,
         },
       },
     ],
     initiative: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "+0",
     },
     initiative_bonuses: [
       {
-        init_label: {
+        init_label_and_value: {
           type: String,
           default: "",
-        },
-        init_value: {
-          type: Number,
-          default: 0,
         },
       },
     ],
     bab: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "+0",
     },
     base_speed: {
-      type: Number,
-      default: 30,
+      type: String,
+      default: "30ft",
     },
     speed_with_armor: {
-      type: Number,
-      default: 20,
-    },
-    fly_speed_with_maneuv: {
       type: String,
-      default: "",
+      default: "20ft",
     },
-    swim_speed: {
-      type: Number,
-      default: 0,
-    },
-    climb_speed: {
-      type: Number,
-      default: 0,
-    },
-    burrow_speed: {
-      type: Number,
-      default: 0,
-    },
-    teleport_speed: {
-      type: String,
-      default: "",
-    },
-    cmb: {
-      type: Number,
-      default: 0,
-    },
-    cmb_bonuses: [
+    other_speeds: [
       {
-        cmb_label: {
+        speed_label_and_value: {
           type: String,
           default: "",
         },
-        cmb_value: {
-          type: Number,
-          default: 0,
+      },
+    ],
+    cmb: {
+      type: String,
+      default: "",
+    },
+    cmb_bonuses: [
+      {
+        cmb_label_and_value: {
+          type: String,
+          default: "",
         },
       },
     ],
+    // Melee and Ranged are abnormal; probably, should be a Label with a "+" Button for each
+    // Clicking this creates a new Section. Each Section is associated with one Attack. 
+    // It has the following information: Label (changes Section Title), Vector, Total Attack Bonus, 
+    // Total Damage, Critical Range, Damage Types, (Ammunition for Ranged), and Notes. 
+    // Both Total Attack Bonus and Total Damage are Buttons that open up Modals. 
     melee_attacks: [
       {
         ma_label: {

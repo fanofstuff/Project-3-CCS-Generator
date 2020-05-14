@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import API from "../../utils/API";
 import "./Character.css";
 import $ from "jquery";
-// import update from "immutability-helper";
+import update from "immutability-helper";
 import CharacterInput from "../../components/Shared/CharacterInput/CharacterInput";
 import ModifierOutput from "../../components/Shared/ModifierOutput/ModifierOutput";
 import Section from "../../components/Shared/Section/Section";
+import Display from "../../components/Shared/Display/Display";
 
 class Character extends Component {
   state = {
@@ -15,7 +16,6 @@ class Character extends Component {
   getCharacterInfo = () => {
     API.getCharacter(window.location.pathname)
       .then((response) => {
-        console.log(response);
         console.log(window.location.pathname);
         var characterData = response.data;
         this.setState({
@@ -51,8 +51,40 @@ class Character extends Component {
   handleEvent = (event) => {
     const value = event.value;
     const name = event.getAttribute("name");
-    this.setState({
-      characterData: { [name]: value },
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: { $merge: { [name]: value } },
+      });
+      return newArray;
+    });
+  };
+
+  handleSubsetData = (event) => {
+    const value = event.value;
+    const name = event.name;
+    const section = event.getAttribute("section");
+    const id = event.id;
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          [section]: { [id]: { $merge: { [name]: value } } },
+        },
+      });
+      return newArray;
+    });
+  };
+
+  onAddItem = (event) => {
+    const name = event.target.getAttribute("name");
+    const section = event.target.getAttribute("section");
+    console.log(event.target);
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          [section]: { $push: [{ [name]: "" }] },
+        },
+      });
+      return newArray;
     });
   };
 
@@ -74,6 +106,7 @@ class Character extends Component {
         >
           <CharacterInput
             onTextChange={this.handleEvent}
+            saveCharacter={this.saveCharacter}
             value={this.state.characterData.character_name}
             label={"Character Name"}
             name="character_name"
@@ -100,13 +133,28 @@ class Character extends Component {
             name="character_level"
             width={4}
           />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.class_levels}
-            label={"FUTURE CLASSES BUTTON"}
-            name="class_levels"
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"Class Level Tracker"}
+            titleValue=""
+            titleName=""
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.class_levels}
+            section={"class_levels"}
+            name="class_name_and_level"
+            label="Class"
             width={4}
-          />
+            tracker={false}
+          >
+            <button
+              name={"class_name_and_level"}
+              section={"class_levels"}
+              onClick={this.onAddItem}
+            >
+              Add a Class
+            </button>
+          </Display>
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.deity_name}
@@ -332,27 +380,6 @@ class Character extends Component {
         <Section saveCharacter={this.saveCharacter} title="Defenses">
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.ac}
-            label={"FUTURE AC BUTTON"}
-            name="ac"
-            width={4}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.touch_ac}
-            label={"FUTURE TOUCH AC BUTTON"}
-            name="touch_ac"
-            width={4}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.flat_footed_ac}
-            label={"FUTURE FLAT-FOOTED AC BUTTON"}
-            name="flat_footed_ac"
-            width={4}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
             value={this.state.characterData.total_hp}
             label={"Total HP"}
             name="total_hp"
@@ -374,9 +401,9 @@ class Character extends Component {
           />
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.hit_die}
-            label={"Hit Die"}
-            name="hit_die"
+            value={this.state.characterData.temp_hp}
+            label={"Temp HP"}
+            name="temp_hp"
             width={2}
           />
           <CharacterInput
@@ -395,27 +422,6 @@ class Character extends Component {
           />
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.fort_save}
-            label={"FUTURE FORT SAVE BUTTON"}
-            name="fort_save"
-            width={4}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.ref_save}
-            label={"FUTURE REF SAVE BUTTON"}
-            name="ref_save"
-            width={4}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.will_save}
-            label={"FUTURE WILL SAVE BUTTON"}
-            name="will_save"
-            width={4}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
             value={this.state.characterData.resistances}
             label={"Resistances"}
             name="resistances"
@@ -428,85 +434,252 @@ class Character extends Component {
             name="immunities"
             width={5}
           />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.cmd}
-            label={"CMD BUTTON"}
-            name="cmd"
+
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"CMD: "}
+            titleValue={this.state.characterData.cmd}
+            titleName="cmd"
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.cmd_bonuses}
+            section={"cmd_bonuses"}
+            name="cmd_label_and_value"
+            label={"CMD Modifier"}
             width={2}
-          />
+            tracker={true}
+          >
+            <button
+              name={"cmd_label_and_value"}
+              section={"cmd_bonuses"}
+              onClick={this.onAddItem}
+            >
+              Add a CMD Modifier
+            </button>
+          </Display>
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"Total AC: "}
+            titleValue={this.state.characterData.ac}
+            titleName="ac"
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.ac_bonuses}
+            section={"ac_bonuses"}
+            name="ac_label_and_value"
+            label={"AC Modifier"}
+            width={2}
+            tracker={true}
+          >
+            <button
+              name={"ac_label_and_value"}
+              section={"ac_bonuses"}
+              onClick={this.onAddItem}
+            >
+              Add an AC Modifier
+            </button>
+          </Display>
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"Touch AC: "}
+            titleValue={this.state.characterData.touch_ac}
+            titleName="touch_ac"
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.touch_ac_bonuses}
+            section={"touch_ac_bonuses"}
+            name="touch_ac_label_and_value"
+            label={"Touch AC Modifier"}
+            width={2}
+            tracker={true}
+          >
+            <button
+              name={"touch_ac_label_and_value"}
+              section={"touch_ac_bonuses"}
+              onClick={this.onAddItem}
+            >
+              Add an AC Modifier
+            </button>
+          </Display>
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"Flat-Footed AC: "}
+            titleValue={this.state.characterData.flat_footed_ac}
+            titleName="flat_footed_ac"
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.ff_ac_bonuses}
+            section={"ff_ac_bonuses"}
+            name="ff_ac_label_and_value"
+            label={"Flat-Footed AC Modifier"}
+            width={2}
+            tracker={true}
+          >
+            <button
+              name={"ff_ac_label_and_value"}
+              section={"ff_ac_bonuses"}
+              onClick={this.onAddItem}
+            >
+              Add an AC Modifier
+            </button>
+          </Display>
+
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"FORT Save: "}
+            titleValue={this.state.characterData.fort_save}
+            titleName="fort_save"
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.fort_bonuses}
+            section={"fort_bonuses"}
+            name="fort_label_and_value"
+            label={"FORT Save Modifier"}
+            width={2}
+            tracker={true}
+          >
+            <button
+              name={"fort_label_and_value"}
+              section={"fort_bonuses"}
+              onClick={this.onAddItem}
+            >
+              Add a FORT Save Modifier
+            </button>
+          </Display>
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"REF Save: "}
+            titleValue={this.state.characterData.ref_save}
+            titleName="ref_save"
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.ref_bonuses}
+            section={"ref_bonuses"}
+            name="ref_label_and_value"
+            label={"REF Save Modifier"}
+            width={2}
+            tracker={true}
+          >
+            <button
+              name={"ref_label_and_value"}
+              section={"ref_bonuses"}
+              onClick={this.onAddItem}
+            >
+              Add a REF Save Modifier
+            </button>
+          </Display>
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"WILL Save: "}
+            titleValue={this.state.characterData.will_save}
+            titleName="will_save"
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.will_bonuses}
+            section={"will_bonuses"}
+            name="will_label_and_value"
+            label={"WILL Save Modifier"}
+            width={2}
+            tracker={true}
+          >
+            <button
+              name={"will_label_and_value"}
+              section={"will_bonuses"}
+              onClick={this.onAddItem}
+            >
+              Add a WILL Save Modifier
+            </button>
+          </Display>
         </Section>
+        <br />
         <Section saveCharacter={this.saveCharacter} title="Attacks">
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.initiative}
-            label={"INIT BUTTON"}
-            name="initiative"
-            width={3}
-          />
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"Initiative: "}
+            titleValue={this.state.characterData.initiative}
+            titleName="initiative"
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.initiative_bonuses}
+            section={"initiative_bonuses"}
+            name="initiative_label_and_value"
+            label={"Initiative Modifier"}
+            width={2}
+            tracker={true}
+          >
+            <button
+              name={"initiative_label_and_value"}
+              section={"initiative_bonuses"}
+              onClick={this.onAddItem}
+            >
+              Add an Initiative Modifier
+            </button>
+          </Display>
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.bab}
             label={"BAB"}
             name="bab"
-            width={3}
+            width={2}
           />
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"CMB: "}
+            titleValue={this.state.characterData.cmb}
+            titleName="cmb"
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.cmb_bonuses}
+            section={"cmb_bonuses"}
+            name="cmb_label_and_value"
+            label={"CMB Modifier"}
+            width={2}
+            tracker={true}
+          >
+            <button
+              name={"cmb_label_and_value"}
+              section={"cmb_bonuses"}
+              onClick={this.onAddItem}
+            >
+              Add a CMB Modifier
+            </button>
+          </Display>
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.base_speed}
             label={"Speed"}
             name="base_speed"
-            width={3}
+            width={2}
           />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.speed_with_armor}
             label={"with Armor"}
             name="speed_with_armor"
-            width={3}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.fly_speed_with_maneuv}
-            label={"Fly Speed"}
-            name="fly_speed_with_maneuv"
             width={2}
           />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.swim_speed}
-            label={"Swim Speed"}
-            name="swim_speed"
+          <Display
+            onTextChange={this.handleSubsetData}
+            handleEvent={this.handleEvent}
+            title={"Other Speeds"}
+            titleValue=""
+            titleName=""
+            saveCharacter={this.saveCharacter}
+            array={this.state.characterData.other_speeds}
+            section={"other_speeds"}
+            name="speed_label_and_value"
+            label={"Alternative Movement Speed"}
             width={2}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.climb_speed}
-            label={"Climb Speed"}
-            name="climb_speed"
-            width={2}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.burrow_speed}
-            label={"Burrow Speed"}
-            name="burrow_speed"
-            width={2}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.teleport_speed}
-            label={"Tele-Speed"}
-            name="teleport_speed"
-            width={2}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.cmb}
-            label={"CMB BUTTON"}
-            name="cmb"
-            width={2}
-          />
+            tracker={false}
+          >
+            <button
+              name={"speed_label_and_value"}
+              section={"other_speeds"}
+              onClick={this.onAddItem}
+            >
+              Add an Alternative Movement Speed
+            </button>
+          </Display>
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.melee_attacks}
@@ -528,28 +701,14 @@ class Character extends Component {
             value={this.state.characterData.total_ranks}
             label={"Total Ranks"}
             name="total_ranks"
-            width={4}
+            width={3}
           />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.armor_check_penalty}
             label={"Armor Check Penalty"}
             name="armor_check_penalty"
-            width={4}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.skills}
-            label={"SKILLS SECTION; WILL NEED CUSTOM WORK"}
-            name="skills"
-            width={12}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.languages}
-            label={"Languages"}
-            name="languages"
-            width={6}
+            width={3}
           />
           <CharacterInput
             onTextChange={this.handleEvent}
@@ -564,6 +723,24 @@ class Character extends Component {
             label={"XP to Level-Up"}
             name="xp_for_next_level"
             width={3}
+          />
+          {/* 
+
+
+           */}
+          <CharacterInput
+            onTextChange={this.handleEvent}
+            value={this.state.characterData.skills}
+            label={"SKILLS SECTION; WILL NEED CUSTOM WORK"}
+            name="skills"
+            width={12}
+          />
+          <CharacterInput
+            onTextChange={this.handleEvent}
+            value={this.state.characterData.languages}
+            label={"Languages"}
+            name="languages"
+            width={12}
           />
         </Section>
         <Section saveCharacter={this.saveCharacter} title="Equipment">
@@ -617,7 +794,10 @@ class Character extends Component {
             width={4}
           />
         </Section>
-        <Section saveCharacter={this.saveCharacter} title="Feats and Class Features">
+        <Section
+          saveCharacter={this.saveCharacter}
+          title="Feats and Class Features"
+        >
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.feats}
@@ -647,7 +827,10 @@ class Character extends Component {
             width={12}
           />
         </Section>
-        <Section saveCharacter={this.saveCharacter} title="Casting and Sub-Systems">
+        <Section
+          saveCharacter={this.saveCharacter}
+          title="Casting and Sub-Systems"
+        >
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.vancian_spells}
