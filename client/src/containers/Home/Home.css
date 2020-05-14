@@ -1,0 +1,13 @@
+.homepage-cover {
+  min-height: 100px;
+  background-color: #612726;
+}
+
+.text-style {
+  color: #d5d58f;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 64px;
+  line-height: 100px;
+}

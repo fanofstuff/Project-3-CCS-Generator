@@ -1,0 +1,12 @@
+nav {
+  background-color: #612726;
+  margin-bottom: 30px;
+}
+
+.navbar-link-style {
+  color: #d5d58f;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}

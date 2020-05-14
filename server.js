@@ -32,20 +32,20 @@ app.get("/api/config", (req, res) => {
   });
 });
 
-app.get("/api/user", (req, res) => {
-  db.User.find()
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500);
-      res.json({
-        error: true,
-        message: "No users found",
-      });
-    });
-});
+// app.get("/api/user", (req, res) => {
+//   db.User.find()
+//     .then((users) => {
+//       res.json(users);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500);
+//       res.json({
+//         error: true,
+//         message: "No users found",
+//       });
+//     });
+// });
 
 app.get("/api/characters", (req, res) => {
   db.Character.find()
@@ -62,8 +62,37 @@ app.get("/api/characters", (req, res) => {
     });
 });
 
+app.get("/api/characters/:id", (req, res) => {
+  db.Character.findById(req.params.id)
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500);
+      res.json({
+        error: true,
+        message: "No characters found",
+      });
+    });
+});
+
+app.put("/api/characters/:id", (req, res) => {
+  db.Character.findByIdAndUpdate(req.params.id, req.body, {options: {new:true}})
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500);
+      res.json({
+        error: true,
+        message: "No characters found",
+      });
+    });
+});
+
 app.post("/api/characters", (req, res) => {
-  console.log(req.body);
   db.Character.create(req.body)
     .then((characters) => {
       res.json(characters);

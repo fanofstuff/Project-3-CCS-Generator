@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   // <!-- _id: ObjectId1 (auto-generated),  -->
+  // character_id: somethingsomething,
   email: String,
   // <!-- include logic to check @something.com is present, -->
   password: String,

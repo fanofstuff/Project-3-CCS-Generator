@@ -1,0 +1,14 @@
+.card-styling {
+  height: 100px;
+  line-height: 100px;
+  background-color: beige;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.text-styling {
+    line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+    color: black;
+}

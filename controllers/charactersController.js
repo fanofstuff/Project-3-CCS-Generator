@@ -1,25 +1,15 @@
+const express = require("express");
+const router = express.Router();
 const db = require("../models");
+// character_description: {
+// character_name: String,
+// alignment: String,
+// player_name: String,
+// character_level: Number,
+// }
 
-// Defining methods for the booksController
-module.exports = {
-  findAll: function(req, res) {
-    db.Character
-      .find(req.query)
-      // .sort({ date: -1 })
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-  },
-  create: function(req, res) {
-    db.Character
-      .create(req.body)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-  },
-  // remove: function(req, res) {
-  //   db.Character
-  //     .findById({ _id: req.params.id })
-  //     .then(dbModel => dbModel.remove())
-  //     .then(dbModel => res.json(dbModel))
-  //     .catch(err => res.status(422).json(err));
-  // }
-};
+// router.post("/", (req, res) => {
+  
+// })
+
+module.exports = router;

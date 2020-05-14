@@ -1,0 +1,17 @@
+.positioning-style {
+    background-color: #612726;
+    width: 150px;
+    padding: 10px;
+}
+
+.overflow-styling {
+    overflow-wrap: break-word
+}
+
+.text-box {
+    max-width: 500px; 
+}
+
+.overflow {
+    overflow: hidden;
+}

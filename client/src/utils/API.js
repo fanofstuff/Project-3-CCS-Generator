@@ -5,7 +5,13 @@ export default {
   getCharacters: function() {
     return axios.get("/api/characters");
   },
+  getCharacter: function(pathData) {
+    return axios.get("/api/" + pathData)
+  },
   createCharacter: function(characterData) {
     return axios.post("/api/characters", characterData)
+  },
+  saveCharacter: function(pathData, characterData) {
+    return axios.put("/api" + pathData, characterData)
   }
 };

@@ -1,43 +1,30 @@
 // import logo from "./logo.svg";
 // import "./App.css";
-import axios from "axios";
-import API from "./utils/API";
+import React from "react";
+import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import NavBar from "./components/Shared/NavBar/NavBar";
+import Home from "./containers/Home/Home";
+import Character from "./containers/Character/Character";
 
-import React, { Component } from "react";
-
-class App extends Component {
-  componentDidMount() {
-    axios
-      .get("/api/config")
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  handleButton = (query) => {
-    API.getCharacters()
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err))
-  }
-
-  characterCreate = (query) => {
-    API.createCharacter({"character_description.character_name":"Waldo of Wallaby"})
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err))
-  }
-
-  render() {
-    return (
-    <div>
-      Hello World
-      <button onClick={this.handleButton}>Click to Console Log All Characters</button>
-      <button onClick={this.characterCreate}>Click to Create a Character</button>
-    </div>
-    );
-  }
+function App(props) {
+  return (
+    <>
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route exact path="/">
+            {/* {remembder to change this to Landing Page */}
+            <Home />
+          </Route>
+          <Route
+            path="/characters/:id"
+            render={(props) => <Character {...props} />}
+          />
+        </Switch>
+      </Router>
+    </>
+  );
 }
 
 export default App;

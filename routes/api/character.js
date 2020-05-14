@@ -2,9 +2,10 @@ const router = require("express").Router();
 const charactersController = require("../../controllers/charactersController");
 
 // Matches with "/api/books"
-router.route("/")
-  .get(charactersController.findAll)
-  .post(charactersController.create);
+// router.route("/")
+//   .getAll(charactersController.findAll)
+//   .getOne(charactersController.findOne)
+//   .post(charactersController.create);
 
 // Matches with "/api/books/:id"
 // router
