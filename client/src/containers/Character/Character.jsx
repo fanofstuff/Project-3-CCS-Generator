@@ -15,7 +15,8 @@ class Character extends Component {
   getCharacterInfo = () => {
     API.getCharacter(window.location.pathname)
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
+        console.log(window.location.pathname);
         var characterData = response.data;
         this.setState({
           characterData,
