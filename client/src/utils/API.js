@@ -6,7 +6,7 @@ export default {
     return axios.get("/api/characters");
   },
   getCharacter: function(pathData) {
-    return axios.get("/api/" + pathData)
+    return axios.get("/api" + pathData)
   },
   createCharacter: function(characterData) {
     return axios.post("/api/characters", characterData)
