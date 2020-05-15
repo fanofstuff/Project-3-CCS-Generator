@@ -725,8 +725,12 @@ class Character extends Component {
             width={3}
           />
           {/* 
-
-
+            Here's how the skill section should be: 
+              1. We probably want this in a Table. 
+              2. Each row will be a skill
+              3. A button at the bottom will let us add another skill to the array
+              4. Skill Total is a button, as above; displays total and opens modal with bonuses
+              5. Skill names are placeholders that are overwritten on edit (so, normal Inputs)
            */}
           <CharacterInput
             onTextChange={this.handleEvent}
@@ -743,7 +747,7 @@ class Character extends Component {
             width={12}
           />
         </Section>
-        <Section saveCharacter={this.saveCharacter} title="Equipment">
+        {/* <Section saveCharacter={this.saveCharacter} title="Equipment">
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.platinum}
@@ -772,6 +776,10 @@ class Character extends Component {
             name="copper"
             width={3}
           />
+          
+            These sections are much like the Feats et al. 
+            Section Header --> "Add" Button --> New button opens up Modal; displays name
+          
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.trade_goods}
@@ -793,8 +801,8 @@ class Character extends Component {
             name="adventuring_gear"
             width={4}
           />
-        </Section>
-        <Section
+        </Section> */}
+        {/* <Section
           saveCharacter={this.saveCharacter}
           title="Feats and Class Features"
         >
@@ -826,8 +834,8 @@ class Character extends Component {
             name="classes"
             width={12}
           />
-        </Section>
-        <Section
+        </Section> */}
+        {/* <Section
           saveCharacter={this.saveCharacter}
           title="Casting and Sub-Systems"
         >
@@ -866,7 +874,7 @@ class Character extends Component {
             name="veilweaving"
             width={12}
           />
-        </Section>
+        </Section> */}
         <div className="container">
           <div className="row">
             <div className="col">

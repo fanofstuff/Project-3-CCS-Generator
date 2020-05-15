@@ -9,6 +9,12 @@ const UserSchema = new Schema({
   // <!-- include logic to check @something.com is present, -->
   password: String,
   // <!-- will need encryption of some kind, and probably length logic at minimum -->
+  characters: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Character"
+    }
+  ]
 });
 
 const User = mongoose.model("User", UserSchema);

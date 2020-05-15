@@ -2,6 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const UserController = require("./controllers/usersController");
+const AuthController = require("./controllers/authController");
+// const MatchesController = require("./controllers/matchesController");
 
 const PORT = process.env.PORT || 3001;
 
@@ -32,20 +35,9 @@ app.get("/api/config", (req, res) => {
   });
 });
 
-// app.get("/api/user", (req, res) => {
-//   db.User.find()
-//     .then((users) => {
-//       res.json(users);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500);
-//       res.json({
-//         error: true,
-//         message: "No users found",
-//       });
-//     });
-// });
+app.use("/api/users", UserController);
+app.use("/api/auth", AuthController);
+// app.use("/api/matches", MatchesController);
 
 app.get("/api/characters", (req, res) => {
   db.Character.find()

@@ -6,11 +6,8 @@ export function Section ({ saveCharacter, title, children }) {
       <div className="row">
         <form
           className="col"
-          onSubmit={() => {
-            saveCharacter();
-          }}
         >
-          <h3>{title}</h3>
+          <h3>{title} <button className="btn btn-primary positioning-style" onClick={saveCharacter}>Save</button></h3>
           <div className="row">{children}</div>
         </form>
       </div>

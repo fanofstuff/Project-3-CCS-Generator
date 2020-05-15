@@ -2,16 +2,22 @@ import axios from "axios";
 
 export default {
   // Gets all books
-  getCharacters: function() {
+  getCharacters: function () {
     return axios.get("/api/characters");
   },
-  getCharacter: function(pathData) {
-    return axios.get("/api" + pathData)
+  getCharacter: function (pathData) {
+    return axios.get("/api" + pathData);
   },
-  createCharacter: function(characterData) {
-    return axios.post("/api/characters", characterData)
+  createCharacter: function (characterData) {
+    return axios.post("/api/characters", characterData);
   },
-  saveCharacter: function(pathData, characterData) {
-    return axios.put("/api" + pathData, characterData)
-  }
+  saveCharacter: function (pathData, characterData) {
+    return axios.put("/api" + pathData, characterData);
+  },
+  signUp: function (userData) {
+    return axios.post("/api/users", userData);
+  },
+  login: function (userData) {
+    return axios.post("/api/auth", userData);
+  },
 };

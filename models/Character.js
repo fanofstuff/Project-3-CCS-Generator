@@ -100,12 +100,30 @@ const CharacterSchema = new Schema(
       type: Number,
       default: 10,
     },
-    // <!-- str_mod: Number, <-- these would be irrelevant in that case.
-    // dex_mod: Number,
-    // con_mod: Number,
-    // int_mod: Number,
-    // wis_mod: Number,
-    // cha_mod: Number, -->
+    str_mod: {
+      type: Number,
+      default: 0,
+    },
+    dex_mod: {
+      type: Number,
+      default: 0,
+    },
+    con_mod: {
+      type: Number,
+      default: 0,
+    },
+    int_mod: {
+      type: Number,
+      default: 0,
+    },
+    wis_mod: {
+      type: Number,
+      default: 0,
+    },
+    cha_mod: {
+      type: Number,
+      default: 0,
+    },
     temp_str_score: {
       type: Number,
       default: 10,
@@ -130,12 +148,30 @@ const CharacterSchema = new Schema(
       type: Number,
       default: 10,
     },
-    // <!-- temp_str_mod: Number,
-    // temp_dex_mod: Number,
-    // temp_con_mod: Number,
-    // temp_int_mod: Number,
-    // temp_wis_mod: Number,
-    // temp_cha_mod: Number, -->
+    temp_str_mod: {
+      type: Number,
+      default: 0,
+    },
+    temp_dex_mod: {
+      type: Number,
+      default: 0,
+    },
+    temp_con_mod: {
+      type: Number,
+      default: 0,
+    },
+    temp_int_mod: {
+      type: Number,
+      default: 0,
+    },
+    temp_wis_mod: {
+      type: Number,
+      default: 0,
+    },
+    temp_cha_mod: {
+      type: Number,
+      default: 0,
+    },
     ac: {
       type: Number,
       default: 10,
@@ -298,10 +334,10 @@ const CharacterSchema = new Schema(
       },
     ],
     // Melee and Ranged are abnormal; probably, should be a Label with a "+" Button for each
-    // Clicking this creates a new Section. Each Section is associated with one Attack. 
-    // It has the following information: Label (changes Section Title), Vector, Total Attack Bonus, 
-    // Total Damage, Critical Range, Damage Types, (Ammunition for Ranged), and Notes. 
-    // Both Total Attack Bonus and Total Damage are Buttons that open up Modals. 
+    // Clicking this creates a new Section. Each Section is associated with one Attack.
+    // It has the following information: Label (changes Section Title), Vector, Total Attack Bonus,
+    // Total Damage, Critical Range, Damage Types, (Ammunition for Ranged), and Notes.
+    // Both Total Attack Bonus and Total Damage are Buttons that open up Modals.
     melee_attacks: [
       {
         ma_label: {
@@ -437,11 +473,6 @@ const CharacterSchema = new Schema(
       default: 0,
     },
     skills: [
-      // <!-- trained only and skill name should be hard coded, I suppose...
-      // or maybe set them as default inputs on the front-end, such that they're there
-      // as "Acrobatics" or whatever and are saved as if they were real inputs?
-      // That would even solve my 'default' problem. Investigate that!
-      // MVP might just have the user fill in all of this, however.  -->
       {
         class_skill: {
           type: Boolean,
@@ -459,40 +490,21 @@ const CharacterSchema = new Schema(
           type: Number,
           default: 0,
         },
+        skill_bonuses: [
+          {
+            skill_label_and_value: {
+              type: String,
+              default: "",
+            },
+          },
+        ],
         // <!-- again, do we want Number or String; latter lets us use + symbol... -->
-        ability_modifier: {
-          ability_label: {
-            type: String,
-            default: "Str",
-            // <!-- might be unnecessary; see above; as-is, this makes ALL skills default to STR... -->
-          },
-          ability_value: {
-            type: Number,
-            default: 0,
-          },
-        },
         skill_ranks: {
-          type: Number,
-          default: 0,
-        },
-        class_skill_bonus: {
           type: Number,
           default: 0,
         },
         // <!-- might want this to be internal logic; if (class_skill),
         // class_skill_bonus value = 3; display it automatically -->
-        skill_bonuses: [
-          {
-            skill_label: {
-              type: String,
-              default: "",
-            },
-            skill_value: {
-              type: Number,
-              default: 0,
-            },
-          },
-        ],
       },
     ],
     languages: {

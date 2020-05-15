@@ -52,7 +52,7 @@ const Display = ({
                 value={titleValue}
                 label={title}
                 name={titleName}
-                width={6}
+                width={12}
               />
             ) : (
               <Modal.Title>{title}</Modal.Title>
@@ -69,7 +69,7 @@ const Display = ({
                   label={label}
                   section={section}
                   name={name}
-                  width={6}
+                  width={12}
                 />
               );
             })}
@@ -77,7 +77,7 @@ const Display = ({
           </Modal.Body>
           <Modal.Footer>
             <button onClick={hideModal}>Cancel</button>
-            <button onClick={saveAndHideModal}>Save</button>
+            <button className="btn btn-primary positioning-style" onClick={saveAndHideModal}>Save</button>
           </Modal.Footer>
         </Modal>
       </div>
