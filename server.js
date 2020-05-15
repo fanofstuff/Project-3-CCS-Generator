@@ -4,7 +4,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const UserController = require("./controllers/usersController");
 const AuthController = require("./controllers/authController");
-// const MatchesController = require("./controllers/matchesController");
+const CharactersController = require("./controllers/charactersController");
 
 const PORT = process.env.PORT || 3001;
 
@@ -37,67 +37,7 @@ app.get("/api/config", (req, res) => {
 
 app.use("/api/users", UserController);
 app.use("/api/auth", AuthController);
-// app.use("/api/matches", MatchesController);
-
-app.get("/api/characters", (req, res) => {
-  db.Character.find()
-    .then((characters) => {
-      res.json(characters);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500);
-      res.json({
-        error: true,
-        message: "No characters found",
-      });
-    });
-});
-
-app.get("/api/characters/:id", (req, res) => {
-  db.Character.findById(req.params.id)
-    .then((characters) => {
-      res.json(characters);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500);
-      res.json({
-        error: true,
-        message: "No characters found",
-      });
-    });
-});
-
-app.put("/api/characters/:id", (req, res) => {
-  db.Character.findByIdAndUpdate(req.params.id, req.body, {options: {new:true}})
-    .then((characters) => {
-      res.json(characters);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500);
-      res.json({
-        error: true,
-        message: "No characters found",
-      });
-    });
-});
-
-app.post("/api/characters", (req, res) => {
-  db.Character.create(req.body)
-    .then((characters) => {
-      res.json(characters);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500);
-      res.json({
-        error: true,
-        message: "No characters found",
-      });
-    });
-});
+app.use("/api/characters", CharactersController);
 
 app.use(express.static("client/build"));
 

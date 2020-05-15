@@ -14,9 +14,10 @@ class Character extends Component {
   };
 
   getCharacterInfo = () => {
-    API.getCharacter(window.location.pathname)
+    var url = window.location.pathname;
+    var id = url.substring(url.lastIndexOf("/") + 1)
+    API.getCharacter(id)
       .then((response) => {
-        console.log(window.location.pathname);
         var characterData = response.data;
         this.setState({
           characterData,

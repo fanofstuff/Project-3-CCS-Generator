@@ -3,8 +3,9 @@ const router = express.Router();
 const db = require("../models");
 
 router.get("/:id", (req, res) => {
+    console.log(req.params.id)
     db.User.findById(req.params.id)
-    .populate("characters")
+  //   .populate("characters")
       .then((characters) => {
         res.json(characters);
       })
@@ -18,9 +19,7 @@ router.get("/:id", (req, res) => {
       });
   });
 
-
-
-router.get("/data/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   db.Character.findById(req.params.id)
     .then((characters) => {
       res.json(characters);
