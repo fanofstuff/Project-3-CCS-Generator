@@ -3,24 +3,6 @@ const router = express.Router();
 const db = require("../models");
 
 router.get("/:id", (req, res) => {
-    db.User.findById(req.params.id)
-    .populate("characters")
-      .then((characters) => {
-        res.json(characters);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500);
-        res.json({
-          error: true,
-          message: "No characters found",
-        });
-      });
-  });
-
-
-
-router.get("/data/:id", (req, res) => {
   db.Character.findById(req.params.id)
     .then((characters) => {
       res.json(characters);
@@ -54,6 +36,21 @@ router.put("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   db.Character.create(req.body)
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500);
+      res.json({
+        error: true,
+        message: "No characters found",
+      });
+    });
+});
+
+router.delete("/:id", (req, res) => {
+  db.Character.findByIdAndDelete(req.params.id)
     .then((characters) => {
       res.json(characters);
     })

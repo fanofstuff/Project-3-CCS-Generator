@@ -124,54 +124,6 @@ const CharacterSchema = new Schema(
       type: Number,
       default: 0,
     },
-    temp_str_score: {
-      type: Number,
-      default: 10,
-    },
-    temp_dex_score: {
-      type: Number,
-      default: 10,
-    },
-    temp_con_score: {
-      type: Number,
-      default: 10,
-    },
-    temp_int_score: {
-      type: Number,
-      default: 10,
-    },
-    temp_wis_score: {
-      type: Number,
-      default: 10,
-    },
-    temp_cha_score: {
-      type: Number,
-      default: 10,
-    },
-    temp_str_mod: {
-      type: Number,
-      default: 0,
-    },
-    temp_dex_mod: {
-      type: Number,
-      default: 0,
-    },
-    temp_con_mod: {
-      type: Number,
-      default: 0,
-    },
-    temp_int_mod: {
-      type: Number,
-      default: 0,
-    },
-    temp_wis_mod: {
-      type: Number,
-      default: 0,
-    },
-    temp_cha_mod: {
-      type: Number,
-      default: 0,
-    },
     ac: {
       type: Number,
       default: 10,
@@ -323,7 +275,7 @@ const CharacterSchema = new Schema(
     ],
     cmb: {
       type: String,
-      default: "",
+      default: "+0",
     },
     cmb_bonuses: [
       {

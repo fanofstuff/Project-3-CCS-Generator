@@ -2,9 +2,11 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import ListInput from "../ListInput/ListInput";
 import CharacterInput from "../CharacterInput/CharacterInput";
+import "./Display.css"
 
 const Display = ({
   onTextChange,
+  deleteInputRow,
   handleEvent,
   title,
   titleValue,
@@ -28,8 +30,8 @@ const Display = ({
     setIsOpen(false);
   };
 
-  const saveAndHideModal = () => {
-    saveCharacter();
+  const saveAndHideModal = (event) => {
+    saveCharacter(event);
     hideModal();
   };
 
@@ -37,7 +39,7 @@ const Display = ({
     <>
       <div className={`col-md-${width}`}>
         <button
-          className="btn btn-primary"
+          className="btn btn-primary display-style"
           type="button"
           data-toggle="modal"
           onClick={showModal}
@@ -65,6 +67,7 @@ const Display = ({
                   key={index}
                   id={index}
                   onTextChange={onTextChange}
+                  deleteInputRow={deleteInputRow}
                   value={element[name]}
                   label={label}
                   section={section}

@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 
 class ListInput extends Component {
-  constructor(props) {
-    super(props);
-    this.handleEvent = this.handleEvent.bind(this);
-  }
 
-  handleEvent(e) {
+  handleEvent = (e) => {
     this.props.onTextChange(e.target);
   }
 

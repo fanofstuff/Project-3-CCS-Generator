@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 const jwt = require("jsonwebtoken");
+const mongo = require("mongodb");
+const mongoose = require("mongoose");
 
 router.post("/", (req, res) => {
   const email = req.body.suEmail ? req.body.suEmail.trim() : "";
@@ -41,6 +43,22 @@ router.post("/", (req, res) => {
   }
 });
 
+router.get("/:id", (req, res) => {
+  db.User.findById(req.params.id)
+    .populate("characters")
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500);
+      res.json({
+        error: true,
+        message: "No characters found",
+      });
+    });
+});
+
 router.put("/:id", (req, res) => {
   console.log(req.body.value);
   var characterData = { _id: req.body.value };
@@ -53,6 +71,27 @@ router.put("/:id", (req, res) => {
   )
     .then((characters) => {
       console.log(characters);
+      res.json(characters);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500);
+      res.json({
+        error: true,
+        message: "No characters found",
+      });
+    });
+});
+
+router.put("/remove/:id", (req, res) => {
+  db.User.findByIdAndUpdate(
+    { _id: req.params.id },
+    {
+      $pull: { characters: req.body.value },
+    },
+    { new: true }
+  )
+    .then((characters) => {
       res.json(characters);
     })
     .catch((err) => {

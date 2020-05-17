@@ -7,6 +7,7 @@ import CharacterInput from "../../components/Shared/CharacterInput/CharacterInpu
 import ModifierOutput from "../../components/Shared/ModifierOutput/ModifierOutput";
 import Section from "../../components/Shared/Section/Section";
 import Display from "../../components/Shared/Display/Display";
+import Footer from "../../components/Shared/Footer/Footer";
 
 class Character extends Component {
   state = {
@@ -15,7 +16,7 @@ class Character extends Component {
 
   getCharacterInfo = () => {
     var url = window.location.pathname;
-    var id = url.substring(url.lastIndexOf("/") + 1)
+    var id = url.substring(url.lastIndexOf("/") + 1);
     API.getCharacter(id)
       .then((response) => {
         var characterData = response.data;
@@ -26,12 +27,15 @@ class Character extends Component {
       .catch((err) => console.log(err));
   };
 
-  saveCharacter = () => {
+  saveCharacter = (event) => {
+    event.preventDefault();
     API.saveCharacter(window.location.pathname, this.state.characterData)
       .then((response) => {
         console.log(response);
+        // add something to inform the user of successful save
       })
       .catch((err) => console.log(err));
+    // ditto for unsuccessful save
   };
 
   componentDidMount() {
@@ -89,7 +93,57 @@ class Character extends Component {
     });
   };
 
+  deleteInputRow = (event) => {
+    const name = event.target.getAttribute("name");
+    const section = event.target.getAttribute("section");
+    console.log(event.target);
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          [section]: { $pull: [{ [name]: "" }] },
+        },
+      });
+      return newArray;
+    });  }
+
   render() {
+    var strMod =
+      this.state.characterData.str_score &&
+      Math.floor((this.state.characterData.str_score - 10) / 2);
+    var dexMod =
+      this.state.characterData.dex_score &&
+      Math.floor((this.state.characterData.dex_score - 10) / 2);
+    var conMod =
+      this.state.characterData.con_score &&
+      Math.floor((this.state.characterData.con_score - 10) / 2);
+    var intMod =
+      this.state.characterData.int_score &&
+      Math.floor((this.state.characterData.int_score - 10) / 2);
+    var wisMod =
+      this.state.characterData.wis_score &&
+      Math.floor((this.state.characterData.wis_score - 10) / 2);
+    var chaMod =
+      this.state.characterData.cha_score &&
+      Math.floor((this.state.characterData.cha_score - 10) / 2);
+    var tempStrMod =
+      this.state.characterData.temp_str_score &&
+      Math.floor((this.state.characterData.temp_str_score - 10) / 2);
+    var tempDexMod =
+      this.state.characterData.temp_dex_score &&
+      Math.floor((this.state.characterData.temp_dex_score - 10) / 2);
+    var tempConMod =
+      this.state.characterData.temp_con_score &&
+      Math.floor((this.state.characterData.temp_con_score - 10) / 2);
+    var tempIntMod =
+      this.state.characterData.temp_int_score &&
+      Math.floor((this.state.characterData.temp_int_score - 10) / 2);
+    var tempWisMod =
+      this.state.characterData.temp_wis_score &&
+      Math.floor((this.state.characterData.temp_wis_score - 10) / 2);
+    var tempChaMod =
+      this.state.characterData.temp_cha_score &&
+      Math.floor((this.state.characterData.temp_cha_score - 10) / 2);
+
     return (
       <>
         <div id="homepage-cover">
@@ -101,10 +155,7 @@ class Character extends Component {
             </div>
           </div>
         </div>
-        <Section
-          saveCharacter={this.saveCharacter}
-          title="Character Description"
-        >
+        <Section title="Character Description">
           <CharacterInput
             onTextChange={this.handleEvent}
             saveCharacter={this.saveCharacter}
@@ -136,6 +187,7 @@ class Character extends Component {
           />
           <Display
             onTextChange={this.handleSubsetData}
+            deleteInputRow={this.deleteInputRow}
             handleEvent={this.handleEvent}
             title={"Class Level Tracker"}
             titleValue=""
@@ -228,12 +280,7 @@ class Character extends Component {
             name="str_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.str_score}
-            label={"STR Mod"}
-            width={3}
-          />
+          <ModifierOutput value={strMod} label={"STR Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.temp_str_score}
@@ -241,12 +288,7 @@ class Character extends Component {
             name="temp_str_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.temp_str_score}
-            label={"Temp STR Mod"}
-            width={3}
-          />
+          <ModifierOutput value={tempStrMod} label={"Temp STR Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.dex_score}
@@ -254,12 +296,7 @@ class Character extends Component {
             name="dex_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.dex_score}
-            label={"DEX Mod"}
-            width={3}
-          />
+          <ModifierOutput value={dexMod} label={"DEX Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.temp_dex_score}
@@ -267,12 +304,7 @@ class Character extends Component {
             name="temp_dex_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.temp_dex_score}
-            label={"Temp DEX Mod"}
-            width={3}
-          />
+          <ModifierOutput value={tempDexMod} label={"Temp DEX Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.con_score}
@@ -280,12 +312,7 @@ class Character extends Component {
             name="con_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.con_score}
-            label={"CON Mod"}
-            width={3}
-          />
+          <ModifierOutput value={conMod} label={"CON Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.temp_con_score}
@@ -293,12 +320,7 @@ class Character extends Component {
             name="temp_con_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.temp_con_score}
-            label={"Temp CON Mod"}
-            width={3}
-          />
+          <ModifierOutput value={tempConMod} label={"Temp CON Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.int_score}
@@ -306,12 +328,7 @@ class Character extends Component {
             name="int_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.int_score}
-            label={"INT Mod"}
-            width={3}
-          />
+          <ModifierOutput value={intMod} label={"INT Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.temp_int_score}
@@ -319,12 +336,7 @@ class Character extends Component {
             name="temp_int_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.temp_int_score}
-            label={"Temp INT Mod"}
-            width={3}
-          />
+          <ModifierOutput value={tempIntMod} label={"Temp INT Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.wis_score}
@@ -332,12 +344,7 @@ class Character extends Component {
             name="wis_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.wis_score}
-            label={"WIS Mod"}
-            width={3}
-          />
+          <ModifierOutput value={wisMod} label={"WIS Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.temp_wis_score}
@@ -345,12 +352,7 @@ class Character extends Component {
             name="temp_wis_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.temp_wis_score}
-            label={"Temp WIS Mod"}
-            width={3}
-          />
+          <ModifierOutput value={tempWisMod} label={"Temp WIS Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.cha_score}
@@ -358,12 +360,7 @@ class Character extends Component {
             name="cha_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.cha_score}
-            label={"CHA Mod"}
-            width={3}
-          />
+          <ModifierOutput value={chaMod} label={"CHA Mod"} width={3} />
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.temp_cha_score}
@@ -371,12 +368,7 @@ class Character extends Component {
             name="temp_cha_score"
             width={3}
           />
-          <ModifierOutput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.temp_cha_score}
-            label={"Temp CHA Mod"}
-            width={3}
-          />
+          <ModifierOutput value={tempChaMod} label={"Temp CHA Mod"} width={3} />
         </Section>
         <Section saveCharacter={this.saveCharacter} title="Defenses">
           <CharacterInput
@@ -876,23 +868,12 @@ class Character extends Component {
             width={12}
           />
         </Section> */}
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <button
-                className="btn btn-primary positioning-style"
-                type="submit"
-                name="action"
-                onClick={this.saveCharacter}
-              >
-                Save
-              </button>
-              <br />
-              <br />
-              <br />
-            </div>
-          </div>
-        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <Footer saveCharacter={this.saveCharacter} />
       </>
     );
   }
