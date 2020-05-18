@@ -1139,7 +1139,7 @@ class Character extends Component {
                             <input
                               type="text"
                               name={"skill_ranks"}
-                              value={element.skill_ranks || "0"}
+                              value={element.skill_ranks || ""}
                               section={"skills"}
                               id={"skillRanks" + index}
                               index={index}
@@ -1807,7 +1807,7 @@ class Character extends Component {
                             <input
                               type="text"
                               name={"current_invested_essence"}
-                              value={element.current_invested_essence || "0"}
+                              value={element.current_invested_essence || ""}
                               section={"veils"}
                               id={"currentEssence" + index}
                               index={index}
