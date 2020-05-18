@@ -724,7 +724,7 @@ class Character extends Component {
                 name={"touch_ac_label_and_value"}
                 section={"touch_ac_bonuses"}
                 onClick={this.onAddItem}
-                className="display-primary btn btn-primary"
+                className="display-style btn btn-primary"
               >
                 Add an AC Modifier
               </button>
