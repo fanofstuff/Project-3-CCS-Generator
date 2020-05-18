@@ -8,6 +8,11 @@ import ModifierOutput from "../../components/Shared/ModifierOutput/ModifierOutpu
 import Section from "../../components/Shared/Section/Section";
 import Display from "../../components/Shared/Display/Display";
 import Footer from "../../components/Shared/Footer/Footer";
+import AttackDisplay from "../../components/Shared/AttackDisplay/AttackDisplay";
+import Table from "react-bootstrap/Table";
+import EquipmentDisplay from "../../components/Shared/EquipmentDisplay/EquipmentDisplay";
+import AbilityDisplay from "../../components/Shared/AbilityDisplay/AbilityDisplay";
+import BaseCastingSphere from "../../components/Shared/BaseCastingSphere/BaseCastingSphere";
 
 class Character extends Component {
   state = {
@@ -79,6 +84,45 @@ class Character extends Component {
     });
   };
 
+  handleSkills = (event) => {
+    this.handleSubsetData(event.target);
+  };
+
+  handleCheckbox = (event) => {
+    const name = event.target.name;
+    const section = event.target.getAttribute("section");
+    const id = event.target.id;
+    const value = !JSON.parse(event.target.value);
+
+    console.log(event.target);
+    console.log(name);
+    console.log(section);
+    console.log(id);
+    console.log(value);
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          [section]: { [id]: { $merge: { [name]: value } } },
+        },
+      });
+      return newArray;
+    });
+  };
+
+  handleBasicCheckbox = (event) => {
+    const name = event.target.name;
+    const value = !JSON.parse(event.target.value);
+
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          $merge: { [name]: value },
+        },
+      });
+      return newArray;
+    });
+  };
+
   onAddItem = (event) => {
     const name = event.target.getAttribute("name");
     const section = event.target.getAttribute("section");
@@ -93,18 +137,173 @@ class Character extends Component {
     });
   };
 
-  deleteInputRow = (event) => {
-    const name = event.target.getAttribute("name");
+  onCreateMeleeAttack = (event) => {
+    event.preventDefault();
     const section = event.target.getAttribute("section");
+    const label = event.target.getAttribute("label");
+    const attack = event.target.getAttribute("attack");
+    const damage = event.target.getAttribute("damage");
+    const critical = event.target.getAttribute("critical");
+    const reach = event.target.getAttribute("reach");
+    const types = event.target.getAttribute("types");
+    const notes = event.target.getAttribute("notes");
     console.log(event.target);
     this.setState((state) => {
       const newArray = update(state, {
         characterData: {
-          [section]: { $pull: [{ [name]: "" }] },
+          [section]: {
+            $push: [
+              {
+                [label]: "Weapon",
+                [attack]: "+0",
+                [damage]: "1dX+0",
+                [critical]: "20/x2",
+                [reach]: "",
+                [types]: "",
+                [notes]: "",
+              },
+            ],
+          },
         },
       });
       return newArray;
-    });  }
+    });
+  };
+
+  onCreateRangedAttack = (event) => {
+    event.preventDefault();
+    const section = event.target.getAttribute("section");
+    const label = event.target.getAttribute("label");
+    const attack = event.target.getAttribute("attack");
+    const damage = event.target.getAttribute("damage");
+    const critical = event.target.getAttribute("critical");
+    const reach = event.target.getAttribute("reach");
+    const types = event.target.getAttribute("types");
+    const ammunition = event.target.getAttribute("ammunition");
+    const notes = event.target.getAttribute("notes");
+    console.log(event.target);
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          [section]: {
+            $push: [
+              {
+                [label]: "Weapon",
+                [attack]: "+0",
+                [damage]: "1dX+0",
+                [critical]: "20/x2",
+                [reach]: "",
+                [types]: "",
+                [ammunition]: "",
+                [notes]: "",
+              },
+            ],
+          },
+        },
+      });
+      return newArray;
+    });
+  };
+
+  onAddSkill = (event) => {
+    event.preventDefault();
+    const section = event.target.getAttribute("section");
+    const bonus = event.target.getAttribute("bonus");
+    const trained = event.target.getAttribute("trained");
+    const name = event.target.getAttribute("name");
+    const total = event.target.getAttribute("total");
+    const ranks = event.target.getAttribute("ranks");
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          [section]: {
+            $push: [
+              {
+                [bonus]: false,
+                [trained]: false,
+                [name]: "",
+                [total]: "+0",
+                [ranks]: "0",
+              },
+            ],
+          },
+        },
+      });
+      return newArray;
+    });
+  };
+
+  onCreateItem = (event) => {
+    event.preventDefault();
+    const section = event.target.getAttribute("section");
+    const label = event.target.getAttribute("label");
+    const description = event.target.getAttribute("description");
+    const worth = event.target.getAttribute("worth");
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          [section]: {
+            $push: [
+              {
+                [label]: "Item",
+                [description]: "",
+                [worth]: "0gp",
+              },
+            ],
+          },
+        },
+      });
+      return newArray;
+    });
+  };
+
+  onCreateAbility = (event) => {
+    event.preventDefault();
+    const section = event.target.getAttribute("section");
+    const label = event.target.getAttribute("label");
+    const description = event.target.getAttribute("description");
+    const type = event.target.getAttribute("type");
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          [section]: {
+            $push: [
+              {
+                [label]: "Ability",
+                [type]: "",
+                [description]: "",
+              },
+            ],
+          },
+        },
+      });
+      return newArray;
+    });
+  };
+
+  onAddBCS = (event) => {
+    event.preventDefault();
+    const section = event.target.getAttribute("section");
+    const label = event.target.getAttribute("label");
+    const cl = event.target.getAttribute("cl");
+    const dc = event.target.getAttribute("dc");
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          [section]: {
+            $push: [
+              {
+                [label]: "Sphere",
+                [cl]: 1,
+                [dc]: 10,
+              },
+            ],
+          },
+        },
+      });
+      return newArray;
+    });
+  };
 
   render() {
     var strMod =
@@ -155,10 +354,10 @@ class Character extends Component {
             </div>
           </div>
         </div>
+        <br />
         <Section title="Character Description">
           <CharacterInput
             onTextChange={this.handleEvent}
-            saveCharacter={this.saveCharacter}
             value={this.state.characterData.character_name}
             label={"Character Name"}
             name="character_name"
@@ -200,13 +399,16 @@ class Character extends Component {
             width={4}
             tracker={false}
           >
-            <button
-              name={"class_name_and_level"}
-              section={"class_levels"}
-              onClick={this.onAddItem}
-            >
-              Add a Class
-            </button>
+            <div className="col-lg-3">
+              <button
+                name={"class_name_and_level"}
+                section={"class_levels"}
+                onClick={this.onAddItem}
+                className="display-style btn btn-primary"
+              >
+                Add a Class
+              </button>
+            </div>
           </Display>
           <CharacterInput
             onTextChange={this.handleEvent}
@@ -272,7 +474,8 @@ class Character extends Component {
             width={6}
           />
         </Section>
-        <Section saveCharacter={this.saveCharacter} title="Attributes">
+        <br />
+        <Section title="Attributes">
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.str_score}
@@ -370,7 +573,8 @@ class Character extends Component {
           />
           <ModifierOutput value={tempChaMod} label={"Temp CHA Mod"} width={3} />
         </Section>
-        <Section saveCharacter={this.saveCharacter} title="Defenses">
+        <br />
+        <Section title="Defenses">
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.total_hp}
@@ -442,13 +646,16 @@ class Character extends Component {
             width={2}
             tracker={true}
           >
-            <button
-              name={"cmd_label_and_value"}
-              section={"cmd_bonuses"}
-              onClick={this.onAddItem}
-            >
-              Add a CMD Modifier
-            </button>
+            <div className="col-lg-4">
+              <button
+                name={"cmd_label_and_value"}
+                section={"cmd_bonuses"}
+                onClick={this.onAddItem}
+                className="display-style btn btn-primary"
+              >
+                Add a CMD Modifier
+              </button>
+            </div>
           </Display>
           <Display
             onTextChange={this.handleSubsetData}
@@ -464,13 +671,16 @@ class Character extends Component {
             width={2}
             tracker={true}
           >
-            <button
-              name={"ac_label_and_value"}
-              section={"ac_bonuses"}
-              onClick={this.onAddItem}
-            >
-              Add an AC Modifier
-            </button>
+            <div className="col-lg-4">
+              <button
+                name={"ac_label_and_value"}
+                section={"ac_bonuses"}
+                onClick={this.onAddItem}
+                className="display-style btn btn-primary"
+              >
+                Add an AC Modifier
+              </button>
+            </div>
           </Display>
           <Display
             onTextChange={this.handleSubsetData}
@@ -486,13 +696,16 @@ class Character extends Component {
             width={2}
             tracker={true}
           >
-            <button
-              name={"touch_ac_label_and_value"}
-              section={"touch_ac_bonuses"}
-              onClick={this.onAddItem}
-            >
-              Add an AC Modifier
-            </button>
+            <div className="col-lg-4">
+              <button
+                name={"touch_ac_label_and_value"}
+                section={"touch_ac_bonuses"}
+                onClick={this.onAddItem}
+                className="display-primary btn btn-primary"
+              >
+                Add an AC Modifier
+              </button>
+            </div>
           </Display>
           <Display
             onTextChange={this.handleSubsetData}
@@ -508,13 +721,16 @@ class Character extends Component {
             width={2}
             tracker={true}
           >
-            <button
-              name={"ff_ac_label_and_value"}
-              section={"ff_ac_bonuses"}
-              onClick={this.onAddItem}
-            >
-              Add an AC Modifier
-            </button>
+            <div className="col-lg-4">
+              <button
+                name={"ff_ac_label_and_value"}
+                section={"ff_ac_bonuses"}
+                onClick={this.onAddItem}
+                className="display-style btn btn-primary"
+              >
+                Add an AC Modifier
+              </button>
+            </div>
           </Display>
 
           <Display
@@ -531,13 +747,16 @@ class Character extends Component {
             width={2}
             tracker={true}
           >
-            <button
-              name={"fort_label_and_value"}
-              section={"fort_bonuses"}
-              onClick={this.onAddItem}
-            >
-              Add a FORT Save Modifier
-            </button>
+            <div className="col-lg-4">
+              <button
+                name={"fort_label_and_value"}
+                section={"fort_bonuses"}
+                onClick={this.onAddItem}
+                className="display-style btn btn-primary"
+              >
+                Add a FORT Save Modifier
+              </button>
+            </div>
           </Display>
           <Display
             onTextChange={this.handleSubsetData}
@@ -553,13 +772,16 @@ class Character extends Component {
             width={2}
             tracker={true}
           >
-            <button
-              name={"ref_label_and_value"}
-              section={"ref_bonuses"}
-              onClick={this.onAddItem}
-            >
-              Add a REF Save Modifier
-            </button>
+            <div className="col-lg-4">
+              <button
+                name={"ref_label_and_value"}
+                section={"ref_bonuses"}
+                onClick={this.onAddItem}
+                className="display-style btn btn-primary"
+              >
+                Add a REF Save Modifier
+              </button>
+            </div>
           </Display>
           <Display
             onTextChange={this.handleSubsetData}
@@ -575,17 +797,20 @@ class Character extends Component {
             width={2}
             tracker={true}
           >
-            <button
-              name={"will_label_and_value"}
-              section={"will_bonuses"}
-              onClick={this.onAddItem}
-            >
-              Add a WILL Save Modifier
-            </button>
+            <div className="col-lg-4">
+              <button
+                name={"will_label_and_value"}
+                section={"will_bonuses"}
+                onClick={this.onAddItem}
+                className="display-style btn btn-primary"
+              >
+                Add a WILL Save Modifier
+              </button>
+            </div>
           </Display>
         </Section>
         <br />
-        <Section saveCharacter={this.saveCharacter} title="Attacks">
+        <Section title="Attacks">
           <Display
             onTextChange={this.handleSubsetData}
             handleEvent={this.handleEvent}
@@ -600,13 +825,16 @@ class Character extends Component {
             width={2}
             tracker={true}
           >
-            <button
-              name={"initiative_label_and_value"}
-              section={"initiative_bonuses"}
-              onClick={this.onAddItem}
-            >
-              Add an Initiative Modifier
-            </button>
+            <div className="col-lg-4">
+              <button
+                name={"initiative_label_and_value"}
+                section={"initiative_bonuses"}
+                onClick={this.onAddItem}
+                className="display-style btn btn-primary"
+              >
+                Add an Initiative Modifier
+              </button>
+            </div>
           </Display>
           <CharacterInput
             onTextChange={this.handleEvent}
@@ -629,13 +857,16 @@ class Character extends Component {
             width={2}
             tracker={true}
           >
-            <button
-              name={"cmb_label_and_value"}
-              section={"cmb_bonuses"}
-              onClick={this.onAddItem}
-            >
-              Add a CMB Modifier
-            </button>
+            <div className="col-lg-4">
+              <button
+                name={"cmb_label_and_value"}
+                section={"cmb_bonuses"}
+                onClick={this.onAddItem}
+                className="display-style btn btn-primary"
+              >
+                Add a CMB Modifier
+              </button>
+            </div>
           </Display>
           <CharacterInput
             onTextChange={this.handleEvent}
@@ -665,30 +896,115 @@ class Character extends Component {
             width={2}
             tracker={false}
           >
-            <button
-              name={"speed_label_and_value"}
-              section={"other_speeds"}
-              onClick={this.onAddItem}
-            >
-              Add an Alternative Movement Speed
-            </button>
+            <div className="col-lg-6">
+              <button
+                name={"speed_label_and_value"}
+                section={"other_speeds"}
+                onClick={this.onAddItem}
+                className="display-style btn btn-primary"
+              >
+                Add an Alternative Movement Speed
+              </button>
+            </div>
           </Display>
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.melee_attacks}
-            label={"ADD MELEE ATTACKS BUTTON"}
-            name="melee_attacks"
-            width={6}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.ranged_attacks}
-            label={"ADD RANGED ATTACKS BUTTON"}
-            name="ranged_attacks"
-            width={6}
-          />
         </Section>
-        <Section saveCharacter={this.saveCharacter} title="Skills">
+        <br />
+        <Section title="Melee">
+          <div className="col-md-12">
+            <button
+              section={"melee_attacks"}
+              label={"ma_label"}
+              attack={"ma_total_attack_bonus"}
+              damage={"ma_total_damage"}
+              critical={"ma_criticals"}
+              reach={"ma_reach"}
+              types={"ma_damage_types"}
+              notes={"ma_notes"}
+              onClick={this.onCreateMeleeAttack}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Melee Attack
+            </button>
+          </div>
+          {(this.state.characterData.melee_attacks || []).map(
+            (element, index) => {
+              return (
+                <AttackDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.ma_label}
+                  labelName={"ma_label"}
+                  totalAttackBonus={element.ma_total_attack_bonus}
+                  totalAttackBonusName={"ma_total_attack_bonus"}
+                  totalDamage={element.ma_total_damage}
+                  totalDamageName={"ma_total_damage"}
+                  criticals={element.ma_criticals}
+                  criticalsName={"ma_criticals"}
+                  range={element.ma_reach}
+                  rangeName={"ma_reach"}
+                  damageTypes={element.ma_damage_types}
+                  damageTypesName={"ma_damage_types"}
+                  notes={element.ma_notes}
+                  notesName={"ma_notes"}
+                  section={"melee_attacks"}
+                />
+              );
+            }
+          )}
+        </Section>
+        <br />
+        <Section title="Ranged">
+          <div className="col-md-12">
+            <button
+              section={"ranged_attacks"}
+              label={"ra_label"}
+              attack={"ra_total_attack_bonus"}
+              damage={"ra_total_damage"}
+              critical={"ra_criticals"}
+              reach={"ra_reach"}
+              types={"ra_damage_types"}
+              ammunition={"ra_ammunition"}
+              notes={"ra_notes"}
+              onClick={this.onCreateRangedAttack}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Ranged Attack
+            </button>
+          </div>
+          {(this.state.characterData.ranged_attacks || []).map(
+            (element, index) => {
+              return (
+                <AttackDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.ra_label}
+                  labelName={"ra_label"}
+                  totalAttackBonus={element.ra_total_attack_bonus}
+                  totalAttackBonusName={"ra_total_attack_bonus"}
+                  totalDamage={element.ra_total_damage}
+                  totalDamageName={"ra_total_damage"}
+                  criticals={element.ra_criticals}
+                  criticalsName={"ra_criticals"}
+                  range={element.ra_reach}
+                  rangeName={"ra_reach"}
+                  damageTypes={element.ra_damage_types}
+                  damageTypesName={"ra_damage_types"}
+                  ammunition={element.ra_ammunition}
+                  ammunitionName={"ra_ammunition"}
+                  notes={element.ra_notes}
+                  notesName={"ra_notes"}
+                  section={"ranged_attacks"}
+                />
+              );
+            }
+          )}
+        </Section>
+        <br />
+        <Section title="Skills">
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.total_ranks}
@@ -717,21 +1033,113 @@ class Character extends Component {
             name="xp_for_next_level"
             width={3}
           />
-          {/* 
-            Here's how the skill section should be: 
-              1. We probably want this in a Table. 
-              2. Each row will be a skill
-              3. A button at the bottom will let us add another skill to the array
-              4. Skill Total is a button, as above; displays total and opens modal with bonuses
-              5. Skill names are placeholders that are overwritten on edit (so, normal Inputs)
-           */}
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.skills}
-            label={"SKILLS SECTION; WILL NEED CUSTOM WORK"}
-            name="skills"
-            width={12}
-          />
+          <div className="col-md-12">
+            <Table hover>
+              <thead className="display-style">
+                <tr>
+                  <th className="border border-dark">Class Skill?</th>
+                  <th className="border border-dark">Trained?</th>
+                  <th className="border border-dark">Skill Name</th>
+                  <th className="border border-dark">Total Bonus</th>
+                  <th className="border border-dark">Total Ranks</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(this.state.characterData.skills || []).map(
+                  (element, index) => {
+                    return (
+                      <tr key={index} className="gentler-panels">
+                        <td className="border border-dark">
+                          <div className="checkbox">
+                            <input
+                              id={index}
+                              type="checkbox"
+                              name={"class_skill"}
+                              value={element.class_skill}
+                              section={"skills"}
+                              onChange={this.handleCheckbox}
+                              {...(element.class_skill
+                                ? { checked: true }
+                                : {})}
+                            />
+                          </div>
+                        </td>
+                        <td className="border border-dark">
+                          <div className="checkbox">
+                            <input
+                              id={index}
+                              type="checkbox"
+                              name={"trained_only"}
+                              value={element.trained_only}
+                              section={"skills"}
+                              onChange={this.handleCheckbox}
+                              {...(element.trained_only
+                                ? { checked: true }
+                                : {})}
+                            />
+                          </div>
+                        </td>
+                        <td className="border border-dark">
+                          <div>
+                            <input
+                              type="text"
+                              name={"skill_name"}
+                              value={element.skill_name || ""}
+                              section={"skills"}
+                              id={index}
+                              onChange={this.handleSkills}
+                              className="w-100 p-1 px-3 text-center"
+                            />
+                          </div>
+                        </td>
+                        <td className="border border-dark">
+                          <div>
+                            <input
+                              type="text"
+                              name={"skill_total"}
+                              value={element.skill_total || ""}
+                              section={"skills"}
+                              id={index}
+                              onChange={this.handleSkills}
+                              className="w-25 p-1 px-3 text-center"
+                            />
+                          </div>
+                        </td>
+                        <td className="border border-dark">
+                          <div>
+                            <input
+                              type="text"
+                              name={"skill_ranks"}
+                              value={element.skill_ranks || ""}
+                              section={"skills"}
+                              id={index}
+                              onChange={this.handleSkills}
+                              className="w-25 p-1 px-3 text-center"
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  }
+                )}
+              </tbody>
+            </Table>
+          </div>
+          <div className="col-md-12">
+            <button
+              section={"skills"}
+              bonus={"class_skill"}
+              trained={"trained_only"}
+              name={"skill_name"}
+              total={"skill_total"}
+              ranks={"skill_ranks"}
+              onClick={this.onAddSkill}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Skill
+            </button>
+          </div>
+
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.languages}
@@ -740,7 +1148,8 @@ class Character extends Component {
             width={12}
           />
         </Section>
-        {/* <Section saveCharacter={this.saveCharacter} title="Equipment">
+        <br />
+        <Section title="Equipment">
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.platinum}
@@ -769,83 +1178,485 @@ class Character extends Component {
             name="copper"
             width={3}
           />
-          
-            These sections are much like the Feats et al. 
-            Section Header --> "Add" Button --> New button opens up Modal; displays name
-          
+          <div className="col-md-12">
+            <button
+              section={"trade_goods"}
+              label={"goods_label"}
+              description={"goods_description"}
+              worth={"goods_value"}
+              onClick={this.onCreateItem}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add a Trade Good (i.e. Gems, Artwork, Raw Materials)
+            </button>
+          </div>
+          {(this.state.characterData.trade_goods || []).map(
+            (element, index) => {
+              return (
+                <EquipmentDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.goods_label}
+                  labelName={"goods_label"}
+                  description={element.goods_description}
+                  descriptionName={"goods_description"}
+                  worth={element.goods_value}
+                  worthName={"goods_value"}
+                  section={"trade_goods"}
+                />
+              );
+            }
+          )}
+
+          <div className="col-md-12">
+            <button
+              section={"adventuring_gear"}
+              label={"gear_label"}
+              description={"gear_description"}
+              worth={"gear_value"}
+              onClick={this.onCreateItem}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Adventuring Gear (i.e. Torches, Alchemist's Fire)
+            </button>
+          </div>
+          {(this.state.characterData.adventuring_gear || []).map(
+            (element, index) => {
+              return (
+                <EquipmentDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.gear_label}
+                  labelName={"gear_label"}
+                  description={element.gear_description}
+                  descriptionName={"gear_description"}
+                  worth={element.gear_value}
+                  worthName={"gear_value"}
+                  section={"adventuring_gear"}
+                />
+              );
+            }
+          )}
+
+          <div className="col-md-12">
+            <button
+              section={"other_treasure"}
+              label={"treasure_label"}
+              description={"treasure_description"}
+              worth={"treasure_value"}
+              onClick={this.onCreateItem}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Treasure (i.e. Non-Combat Wands or Scrolls, Wondrous Items)
+            </button>
+          </div>
+          {(this.state.characterData.other_treasure || []).map(
+            (element, index) => {
+              return (
+                <EquipmentDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.treasure_label}
+                  labelName={"treasure_label"}
+                  description={element.treasure_description}
+                  descriptionName={"treasure_description"}
+                  worth={element.treasure_value}
+                  worthName={"treasure_value"}
+                  section={"other_treasure"}
+                />
+              );
+            }
+          )}
+        </Section>
+        <Section title="Feats, Traits and Class Features">
+          <div className="col-md-12">
+            <button
+              section={"feats"}
+              label={"feat_name"}
+              description={"feat_description"}
+              type={"feat_type"}
+              onClick={this.onCreateAbility}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Feat
+            </button>
+          </div>
+          {(this.state.characterData.feats || []).map((element, index) => {
+            return (
+              <AbilityDisplay
+                onTextChange={this.handleSubsetData}
+                saveCharacter={this.saveCharacter}
+                key={index}
+                id={index}
+                label={element.feat_name}
+                labelName={"feat_name"}
+                description={element.feat_description}
+                descriptionName={"feat_description"}
+                type={element.feat_type}
+                typeName={"feat_type"}
+                section={"feats"}
+              />
+            );
+          })}
+          <div className="col-md-12">
+            <button
+              section={"traits"}
+              label={"trait_name"}
+              description={"trait_description"}
+              type={"trait_type"}
+              onClick={this.onCreateAbility}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Trait
+            </button>
+          </div>
+          {(this.state.characterData.traits || []).map((element, index) => {
+            return (
+              <AbilityDisplay
+                onTextChange={this.handleSubsetData}
+                saveCharacter={this.saveCharacter}
+                key={index}
+                id={index}
+                label={element.trait_name}
+                labelName={"trait_name"}
+                description={element.trait_description}
+                descriptionName={"trait_description"}
+                type={element.trait_type}
+                typeName={"trait_type"}
+                section={"traits"}
+              />
+            );
+          })}
+          <div className="col-md-12">
+            <button
+              section={"racial_traits"}
+              label={"trait_name"}
+              description={"trait_description"}
+              type={"trait_type"}
+              onClick={this.onCreateAbility}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Racial Trait
+            </button>
+          </div>
+          {(this.state.characterData.racial_traits || []).map(
+            (element, index) => {
+              return (
+                <AbilityDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.trait_name}
+                  labelName={"trait_name"}
+                  description={element.trait_description}
+                  descriptionName={"trait_description"}
+                  type={element.trait_type}
+                  typeName={"trait_type"}
+                  section={"racial_traits"}
+                />
+              );
+            }
+          )}
+          <div className="col-md-12">
+            <button
+              section={"class_abilities"}
+              label={"ability_name"}
+              description={"ability_description"}
+              type={"ability_type"}
+              onClick={this.onCreateAbility}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Class Ability
+            </button>
+          </div>
+          {(this.state.characterData.class_abilities || []).map(
+            (element, index) => {
+              return (
+                <AbilityDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.ability_name}
+                  labelName={"ability_name"}
+                  description={element.ability_description}
+                  descriptionName={"ability_description"}
+                  type={element.ability_type}
+                  typeName={"ability_type"}
+                  section={"class_abilities"}
+                />
+              );
+            }
+          )}
+        </Section>
+        <h1 className="text-center mb-2 pb-3">Casting and Sub-Systems</h1>
+        <Section title="Spheres of Power">
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.trade_goods}
-            label={"Trade Goods BUTTON"}
-            name="trade_goods"
-            width={4}
+            value={this.state.characterData.sphere_casting_modifier}
+            label={"Casting Mod"}
+            name="sphere_casting_modifier"
+            width={3}
           />
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.other_treasure}
-            label={"Other Treasure BUTTON"}
-            name="other_treasure"
-            width={4}
+            value={this.state.characterData.total_sp}
+            label={"Total SP"}
+            name="total_sp"
+            width={3}
           />
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.adventuring_gear}
-            label={"Adventuring Gear BUTTON"}
-            name="adventuring_gear"
-            width={4}
-          />
-        </Section> */}
-        {/* <Section
-          saveCharacter={this.saveCharacter}
-          title="Feats and Class Features"
-        >
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.feats}
-            label={"Feats SECTION"}
-            name="feats"
-            width={12}
+            value={this.state.characterData.current_sp}
+            label={"Current SP"}
+            name="current_sp"
+            width={3}
           />
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.traits}
-            label={"Traits SECTION"}
-            name="traits"
-            width={12}
+            value={this.state.characterData.base_cl}
+            label={"Base CL"}
+            name="base_cl"
+            width={3}
+          />
+          <div className="col-md-12">
+            <button
+              section={"base_spheres"}
+              label={"sphere_name"}
+              cl={"sphere_cl"}
+              dc={"sphere_dc"}
+              onClick={this.onAddBCS}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Base Sphere
+            </button>
+          </div>
+          {(this.state.characterData.base_spheres || []).map(
+            (element, index) => {
+              return (
+                <BaseCastingSphere
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.sphere_name}
+                  labelName={"sphere_name"}
+                  cl={element.sphere_cl}
+                  clName={"sphere_cl"}
+                  dc={element.sphere_dc}
+                  dcName={"sphere_dc"}
+                  section={"base_spheres"}
+                />
+              );
+            }
+          )}
+          <div className="col-md-12">
+            <button
+              section={"sphere_talents"}
+              label={"talent_name"}
+              description={"talent_description"}
+              type={"talent_type"}
+              onClick={this.onCreateAbility}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add a Sphere Talent
+            </button>
+          </div>
+          {(this.state.characterData.sphere_talents || []).map(
+            (element, index) => {
+              return (
+                <AbilityDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.talent_name}
+                  labelName={"talent_name"}
+                  description={element.talent_description}
+                  descriptionName={"talent_description"}
+                  type={element.talent_type}
+                  typeName={"talent_type"}
+                  section={"sphere_talents"}
+                />
+              );
+            }
+          )}
+          <div className="col-md-12">
+            <button
+              section={"sphere_drawbacks"}
+              label={"drawback_name"}
+              description={"drawback_description"}
+              type={"drawback_type"}
+              onClick={this.onCreateAbility}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add a Sphere Drawback
+            </button>
+          </div>
+          {(this.state.characterData.sphere_drawbacks || []).map(
+            (element, index) => {
+              return (
+                <AbilityDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.drawback_name}
+                  labelName={"drawback_name"}
+                  description={element.drawback_description}
+                  descriptionName={"drawback_description"}
+                  type={element.drawback_type}
+                  typeName={"drawback_type"}
+                  section={"sphere_drawbacks"}
+                />
+              );
+            }
+          )}
+        </Section>
+        <Section title="Spheres of Might">
+          <CharacterInput
+            onTextChange={this.handleEvent}
+            value={this.state.characterData.martial_practitioner_modifier}
+            label={"Practitioner Mod"}
+            name="martial_practitioner_modifier"
+            width={3}
           />
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.racial_traits}
-            label={"Racial Traits SECTION"}
-            name="racial_traits"
-            width={12}
+            value={this.state.characterData.total_sp}
+            label={"Total SP"}
+            name="total_sp"
+            width={3}
+          />
+          <div className={`col-md-2`}>
+            <div className="btn btn-primary display-style w-75">1st Focus?</div>
+            <div className="checkbox ml-3 pt-2 float-right">
+              <input
+                type="checkbox"
+                name={"has_martial_focus"}
+                value={this.state.characterData.has_martial_focus }
+                onChange={this.handleBasicCheckbox}
+                {...(this.state.characterData.has_martial_focus
+                  ? { checked: true }
+                  : {})}
+              />
+            </div>
+          </div>
+
+          <CharacterInput
+            onTextChange={this.handleEvent}
+            value={this.state.characterData.current_sp}
+            label={"Current SP"}
+            name="current_sp"
+            width={3}
           />
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.classes}
-            label={"Class Abilities SECTION"}
-            name="classes"
-            width={12}
+            value={this.state.characterData.base_cl}
+            label={"Base CL"}
+            name="base_cl"
+            width={3}
           />
-        </Section> */}
-        {/* <Section
-          saveCharacter={this.saveCharacter}
-          title="Casting and Sub-Systems"
-        >
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.vancian_spells}
-            label={"Vancian Spellcasting SECTION"}
-            name="vancian_spells"
-            width={12}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.sphere_casting}
-            label={"Sphere Casting SECTION"}
-            name="sphere_casting"
-            width={12}
-          />
+          <div className="col-md-12">
+            <button
+              section={"base_spheres"}
+              label={"sphere_name"}
+              cl={"sphere_cl"}
+              dc={"sphere_dc"}
+              onClick={this.onAddBCS}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add Base Sphere
+            </button>
+          </div>
+          {(this.state.characterData.base_spheres || []).map(
+            (element, index) => {
+              return (
+                <BaseCastingSphere
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.sphere_name}
+                  labelName={"sphere_name"}
+                  cl={element.sphere_cl}
+                  clName={"sphere_cl"}
+                  dc={element.sphere_dc}
+                  dcName={"sphere_dc"}
+                  section={"base_spheres"}
+                />
+              );
+            }
+          )}
+          <div className="col-md-12">
+            <button
+              section={"sphere_talents"}
+              label={"talent_name"}
+              description={"talent_description"}
+              type={"talent_type"}
+              onClick={this.onCreateAbility}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add a Sphere Talent
+            </button>
+          </div>
+          {(this.state.characterData.sphere_talents || []).map(
+            (element, index) => {
+              return (
+                <AbilityDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.talent_name}
+                  labelName={"talent_name"}
+                  description={element.talent_description}
+                  descriptionName={"talent_description"}
+                  type={element.talent_type}
+                  typeName={"talent_type"}
+                  section={"sphere_talents"}
+                />
+              );
+            }
+          )}
+          <div className="col-md-12">
+            <button
+              section={"sphere_drawbacks"}
+              label={"drawback_name"}
+              description={"drawback_description"}
+              type={"drawback_type"}
+              onClick={this.onCreateAbility}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add a Sphere Drawback
+            </button>
+          </div>
+          {(this.state.characterData.sphere_drawbacks || []).map(
+            (element, index) => {
+              return (
+                <AbilityDisplay
+                  onTextChange={this.handleSubsetData}
+                  saveCharacter={this.saveCharacter}
+                  key={index}
+                  id={index}
+                  label={element.drawback_name}
+                  labelName={"drawback_name"}
+                  description={element.drawback_description}
+                  descriptionName={"drawback_description"}
+                  type={element.drawback_type}
+                  typeName={"drawback_type"}
+                  section={"sphere_drawbacks"}
+                />
+              );
+            }
+          )}
           <CharacterInput
             onTextChange={this.handleEvent}
             value={this.state.characterData.sphere_practitioning}
@@ -867,7 +1678,7 @@ class Character extends Component {
             name="veilweaving"
             width={12}
           />
-        </Section> */}
+        </Section>
         <br />
         <br />
         <br />

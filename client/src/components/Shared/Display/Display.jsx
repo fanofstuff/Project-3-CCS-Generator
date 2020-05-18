@@ -79,7 +79,7 @@ const Display = ({
             {children}
           </Modal.Body>
           <Modal.Footer>
-            <button onClick={hideModal}>Cancel</button>
+            {/* <button onClick={hideModal}>Cancel</button> */}
             <button className="btn btn-primary positioning-style" onClick={saveAndHideModal}>Save</button>
           </Modal.Footer>
         </Modal>

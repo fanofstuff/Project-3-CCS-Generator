@@ -29,6 +29,7 @@ const CharacterSchema = new Schema(
     },
     class_levels: [
       {
+        // _id: ObjectId(),
         class_name_and_level: {
           type: String,
           default: "",
@@ -100,29 +101,29 @@ const CharacterSchema = new Schema(
       type: Number,
       default: 10,
     },
-    str_mod: {
+    temp_str_score: {
       type: Number,
-      default: 0,
+      default: 10,
     },
-    dex_mod: {
+    temp_dex_score: {
       type: Number,
-      default: 0,
+      default: 10,
     },
-    con_mod: {
+    temp_con_score: {
       type: Number,
-      default: 0,
+      default: 10,
     },
-    int_mod: {
+    temp_int_score: {
       type: Number,
-      default: 0,
+      default: 10,
     },
-    wis_mod: {
+    temp_wis_score: {
       type: Number,
-      default: 0,
+      default: 10,
     },
-    cha_mod: {
+    temp_cha_score: {
       type: Number,
-      default: 0,
+      default: 10,
     },
     ac: {
       type: Number,
@@ -130,6 +131,7 @@ const CharacterSchema = new Schema(
     },
     ac_bonuses: [
       {
+        // _id: ObjectId(),
         ac_label_and_value: {
           type: String,
           default: "",
@@ -142,6 +144,7 @@ const CharacterSchema = new Schema(
     },
     touch_ac_bonuses: [
       {
+        // _id: ObjectId(),
         touch_ac_label_and_value: {
           type: String,
           default: "",
@@ -154,6 +157,7 @@ const CharacterSchema = new Schema(
     },
     ff_ac_bonuses: [
       {
+        // _id: ObjectId(),
         ff_ac_label_and_value: {
           type: String,
           default: "",
@@ -162,34 +166,35 @@ const CharacterSchema = new Schema(
     ],
     total_hp: {
       type: Number,
-      default: 10,
+      default: 0,
     },
     current_hp: {
       type: Number,
-      default: 10,
+      default: 0,
     },
     nonlethal_damage: {
       type: Number,
       default: 0,
     },
     temp_hp: {
-      type: String,
-      default: "",
+      type: Number,
+      default: 0,
     },
     dr: {
       type: String,
       default: "",
     },
     sr: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "",
     },
     fort_save: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "+0",
     },
     fort_bonuses: [
       {
+        // _id: ObjectId(),
         fort_label_and_value: {
           type: String,
           default: "",
@@ -197,11 +202,12 @@ const CharacterSchema = new Schema(
       },
     ],
     ref_save: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "+0",
     },
     ref_bonuses: [
       {
+        // _id: ObjectId(),
         ref_label_and_value: {
           type: String,
           default: "",
@@ -209,11 +215,12 @@ const CharacterSchema = new Schema(
       },
     ],
     will_save: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "+0",
     },
     will_bonuses: [
       {
+        // _id: ObjectId(),
         will_label_and_value: {
           type: String,
           default: "",
@@ -235,6 +242,7 @@ const CharacterSchema = new Schema(
     },
     cmd_bonuses: [
       {
+        // _id: ObjectId(),
         cmd_label_and_value: {
           type: String,
           default: "",
@@ -247,6 +255,7 @@ const CharacterSchema = new Schema(
     },
     initiative_bonuses: [
       {
+        // _id: ObjectId(),
         init_label_and_value: {
           type: String,
           default: "",
@@ -267,6 +276,7 @@ const CharacterSchema = new Schema(
     },
     other_speeds: [
       {
+        // _id: ObjectId(),
         speed_label_and_value: {
           type: String,
           default: "",
@@ -279,6 +289,7 @@ const CharacterSchema = new Schema(
     },
     cmb_bonuses: [
       {
+        // _id: ObjectId(),
         cmb_label_and_value: {
           type: String,
           default: "",
@@ -292,11 +303,8 @@ const CharacterSchema = new Schema(
     // Both Total Attack Bonus and Total Damage are Buttons that open up Modals.
     melee_attacks: [
       {
+        // _id: ObjectId(),
         ma_label: {
-          type: String,
-          default: "",
-        },
-        ma_vector: {
           type: String,
           default: "",
         },
@@ -305,54 +313,31 @@ const CharacterSchema = new Schema(
           type: String,
           default: "",
         },
-        ma_attack_bonuses: [
-          {
-            ma_attack_label: {
-              type: String,
-              default: "",
-            },
-            ma_attack_bonus: {
-              type: Number,
-              default: 0,
-            },
-          },
-        ],
         ma_total_damage: {
           type: String,
           default: "",
         },
-        ma_damage_bonuses: [
-          {
-            ma_damage_label: {
-              type: String,
-              default: "",
-            },
-            ma_damage_bonus: {
-              type: String,
-              default: "",
-            },
-          },
-        ],
         ma_criticals: {
           type: String,
           default: "",
+        },
+        ma_reach: {
+          type: String,
+          default: "5ft",
         },
         ma_damage_types: {
           type: String,
           default: "",
         },
-        ma_notes: [
-          {
-            ma_note_details: {
-              type: String,
-              default: "",
-            },
-          },
-        ],
+        ma_notes: {
+          type: String,
+          default: "",
+        },
       },
     ],
     ranged_attacks: [
       {
+        // _id: ObjectId(),
         ra_label: {
           type: String,
           default: "",
@@ -366,35 +351,15 @@ const CharacterSchema = new Schema(
           type: String,
           default: "",
         },
-        ra_attack_bonuses: [
-          {
-            ra_attack_label: {
-              type: String,
-              default: "",
-            },
-            ra_attack_bonus: {
-              type: Number,
-              default: 0,
-            },
-          },
-        ],
         ra_total_damage: {
           type: String,
           default: "",
         },
-        ra_damage_bonuses: [
-          {
-            ra_damage_label: {
-              type: String,
-              default: "",
-            },
-            ra_damage_bonus: {
-              type: String,
-              default: "",
-            },
-          },
-        ],
         ra_criticals: {
+          type: String,
+          default: "",
+        },
+        ra_range: {
           type: String,
           default: "",
         },
@@ -406,14 +371,10 @@ const CharacterSchema = new Schema(
           type: String,
           default: "",
         },
-        ra_notes: [
-          {
-            ra_note_details: {
-              type: String,
-              default: "",
-            },
-          },
-        ],
+        ra_notes: {
+          type: String,
+          default: "",
+        },
       },
     ],
     total_ranks: {
@@ -426,6 +387,7 @@ const CharacterSchema = new Schema(
     },
     skills: [
       {
+        // _id: ObjectId(),
         class_skill: {
           type: Boolean,
           default: false,
@@ -439,21 +401,13 @@ const CharacterSchema = new Schema(
           default: "",
         },
         skill_total: {
-          type: Number,
-          default: 0,
+          type: String,
+          default: "+0",
         },
-        skill_bonuses: [
-          {
-            skill_label_and_value: {
-              type: String,
-              default: "",
-            },
-          },
-        ],
         // <!-- again, do we want Number or String; latter lets us use + symbol... -->
         skill_ranks: {
-          type: Number,
-          default: 0,
+          type: String,
+          default: "0",
         },
         // <!-- might want this to be internal logic; if (class_skill),
         // class_skill_bonus value = 3; display it automatically -->
@@ -489,6 +443,7 @@ const CharacterSchema = new Schema(
     },
     trade_goods: [
       {
+        // _id: ObjectId(),
         goods_label: {
           type: String,
           default: "",
@@ -498,13 +453,14 @@ const CharacterSchema = new Schema(
           default: "",
         },
         goods_value: {
-          type: Number,
-          default: 0,
+          type: String,
+          default: "0gp",
         },
       },
     ],
     other_treasure: [
       {
+        // _id: ObjectId(),
         treasure_label: {
           type: String,
           default: "",
@@ -514,8 +470,8 @@ const CharacterSchema = new Schema(
           default: "",
         },
         treasure_value: {
-          type: Number,
-          default: 0,
+          type: String,
+          default: "0gp",
         },
       },
     ],
@@ -530,22 +486,19 @@ const CharacterSchema = new Schema(
           default: "",
         },
         gear_value: {
-          type: Number,
-          default: 0,
+          type: String,
+          default: "0gp",
         },
       },
     ],
     feats: [
       {
+        // _id: ObjectId(),
         feat_name: {
           type: String,
           default: "",
         },
         feat_type: {
-          type: String,
-          default: "",
-        },
-        feat_source: {
           type: String,
           default: "",
         },
@@ -557,15 +510,12 @@ const CharacterSchema = new Schema(
     ],
     traits: [
       {
+        // _id: ObjectId(),
         trait_name: {
           type: String,
           default: "",
         },
         trait_type: {
-          type: String,
-          default: "",
-        },
-        trait_source: {
           type: String,
           default: "",
         },
@@ -577,7 +527,12 @@ const CharacterSchema = new Schema(
     ],
     racial_traits: [
       {
+        // _id: ObjectId(),
         trait_name: {
+          type: String,
+          default: "",
+        },
+        trait_type: {
           type: String,
           default: "",
         },
@@ -587,487 +542,208 @@ const CharacterSchema = new Schema(
         },
       },
     ],
-    classes: [
+    class_abilities: [
       {
-        class_name: {
+        // _id: ObjectId(),
+        ability_name: {
           type: String,
           default: "",
         },
-        class_abilities: [
-          {
-            ability_name: {
-              type: String,
-              default: "",
-            },
-            ability_type: {
-              type: String,
-              default: "",
-            },
-            ability_source: {
-              type: String,
-              default: "",
-            },
-            ability_description: {
-              type: String,
-              default: "",
-            },
-          },
-        ],
-      },
-    ],
-    // <!-- MVP would be getting these 4 working properly; adding more should be easy after that -->
-    vancian_spells: [
-      // <!-- make two buttons;
-      // prepared needs 0th spells/day and doesn't need spells known section,
-      // while spontaneous doesn't need 0th/day but does need spells known section.
-      // Data structure can be the same for both, though. -->
-      {
-        spell_dcs: [
-          {
-            zeroth: {
-              type: Number,
-              default: 0,
-            },
-            first: {
-              type: Number,
-              default: 0,
-            },
-            second: {
-              type: Number,
-              default: 0,
-            },
-            third: {
-              type: Number,
-              default: 0,
-            },
-            fourth: {
-              type: Number,
-              default: 0,
-            },
-            fifth: {
-              type: Number,
-              default: 0,
-            },
-            sixth: {
-              type: Number,
-              default: 0,
-            },
-            seventh: {
-              type: Number,
-              default: 0,
-            },
-            eight: {
-              type: Number,
-              default: 0,
-            },
-            ninth: {
-              type: Number,
-              default: 0,
-            },
-          },
-        ],
-        spells_per_day: [
-          {
-            zeroth: {
-              type: Number,
-              default: 0,
-            },
-            first: {
-              type: Number,
-              default: 0,
-            },
-            second: {
-              type: Number,
-              default: 0,
-            },
-            third: {
-              type: Number,
-              default: 0,
-            },
-            fourth: {
-              type: Number,
-              default: 0,
-            },
-            fifth: {
-              type: Number,
-              default: 0,
-            },
-            sixth: {
-              type: Number,
-              default: 0,
-            },
-            seventh: {
-              type: Number,
-              default: 0,
-            },
-            eight: {
-              type: Number,
-              default: 0,
-            },
-            ninth: {
-              type: Number,
-              default: 0,
-            },
-          },
-        ],
-        spells_remaining: [
-          // <!-- mainly for spontaneous -->
-          {
-            zeroth: {
-              type: Number,
-              default: 0,
-            },
-            first: {
-              type: Number,
-              default: 0,
-            },
-            second: {
-              type: Number,
-              default: 0,
-            },
-            third: {
-              type: Number,
-              default: 0,
-            },
-            fourth: {
-              type: Number,
-              default: 0,
-            },
-            fifth: {
-              type: Number,
-              default: 0,
-            },
-            sixth: {
-              type: Number,
-              default: 0,
-            },
-            seventh: {
-              type: Number,
-              default: 0,
-            },
-            eight: {
-              type: Number,
-              default: 0,
-            },
-            ninth: {
-              type: Number,
-              default: 0,
-            },
-          },
-        ],
-        spells_known: [
-          {
-            zeroth: {
-              type: Number,
-              default: 0,
-            },
-            first: {
-              type: Number,
-              default: 0,
-            },
-            second: {
-              type: Number,
-              default: 0,
-            },
-            third: {
-              type: Number,
-              default: 0,
-            },
-            fourth: {
-              type: Number,
-              default: 0,
-            },
-            fifth: {
-              type: Number,
-              default: 0,
-            },
-            sixth: {
-              type: Number,
-              default: 0,
-            },
-            seventh: {
-              type: Number,
-              default: 0,
-            },
-            eight: {
-              type: Number,
-              default: 0,
-            },
-            ninth: {
-              type: Number,
-              default: 0,
-            },
-          },
-        ],
-        spells_by_level: [
-          {
-            zeroth_spells: [
-              // <!-- is there a way to abstract this?
-              // Otherwise, I'm going to turn the spells array into a separate document
-              // to reference with a foreign key. We'll have to do this 9 more times, otherwise. -->
-              {
-                spell_name: {
-                  type: String,
-                  default: "",
-                },
-                spell_level: {
-                  type: Number,
-                  default: 0,
-                },
-                spell_cl: {
-                  type: Number,
-                  default: 0,
-                },
-                spell_dc: {
-                  type: Number,
-                  default: 0,
-                },
-                spell_school: {
-                  type: String,
-                  default: "",
-                },
-                spell_subschool: {
-                  type: String,
-                  default: "",
-                },
-                spell_times_prepared: {
-                  type: Number,
-                  default: 0,
-                },
-                spell_times_cast: {
-                  type: Number,
-                  default: 0,
-                },
-                spell_description: {
-                  type: String,
-                  default: "",
-                },
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    sphere_casting: [
-      {
-        casting_modifier: {
+        ability_type: {
           type: String,
           default: "",
         },
-        total_sp: {
-          type: Number,
-          default: 0,
-        },
-        current_sp: {
-          type: Number,
-          default: 0,
-        },
-        base_cl: {
-          type: Number,
-          default: 0,
-        },
-        spheres: [
-          {
-            sphere_name: {
-              type: String,
-              default: "",
-            },
-            sphere_cl: {
-              type: Number,
-              default: 0,
-            },
-            sphere_dc: {
-              type: Number,
-              default: 0,
-            },
-            sphere_talents: [
-              {
-                talent_name: {
-                  type: String,
-                  default: "",
-                },
-                talent_description: {
-                  type: String,
-                  default: "",
-                },
-              },
-            ],
-            sphere_drawbacks: [
-              {
-                drawback_name: {
-                  type: String,
-                  default: "",
-                },
-                drawback_description: {
-                  type: String,
-                  default: "",
-                },
-              },
-            ],
-            sphere_abilities: [
-              {
-                ability_name: {
-                  type: String,
-                  default: "",
-                },
-                ability_cost: {
-                  type: Number,
-                  default: 0,
-                },
-                ability_action: {
-                  type: String,
-                  default: "",
-                },
-                ability_duration: {
-                  type: String,
-                  default: "",
-                },
-                ability_description: {
-                  type: String,
-                  default: "",
-                },
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    sphere_practitioning: [
-      {
-        practitioner_modifier: {
+        ability_description: {
           type: String,
           default: "",
         },
-        spheres: [
-          // <!-- button creates a new section w/ header;
-          // later arrays make buttons that pull up modals -->
-          {
-            sphere_name: {
-              type: String,
-              default: "",
-            },
-            sphere_level: {
-              type: Number,
-              default: 0,
-            },
-            sphere_dc: {
-              type: Number,
-              default: 0,
-            },
-            associated_skill: {
-              type: String,
-              default: "",
-            },
-            free_skill_ranks: {
-              type: Number,
-              default: 0,
-            },
-            sphere_talents: [
-              {
-                talent_name: {
-                  type: String,
-                  default: "",
-                },
-                talent_description: {
-                  type: String,
-                  default: "",
-                },
-              },
-            ],
-            sphere_drawbacks: [
-              {
-                drawback_name: {
-                  type: String,
-                  default: "",
-                },
-                drawback_description: {
-                  type: String,
-                  default: "",
-                },
-              },
-            ],
-            sphere_abilities: [
-              {
-                ability_name: {
-                  type: String,
-                  default: "",
-                },
-                ability_cost: {
-                  type: Number,
-                  default: 0,
-                },
-                ability_action: {
-                  type: String,
-                  default: "",
-                },
-                ability_duration: {
-                  type: String,
-                  default: "",
-                },
-                ability_description: {
-                  type: String,
-                  default: "",
-                },
-              },
-            ],
-          },
-        ],
+      },
+    ],
+    sphere_casting_modifier: {
+      type: String,
+      default: "",
+    },
+    total_sp: {
+      type: Number,
+      default: 0,
+    },
+    current_sp: {
+      type: Number,
+      default: 0,
+    },
+    base_cl: {
+      type: Number,
+      default: 0,
+    },
+    base_spheres: [
+      {
+        // _id: ObjectId(),
+        sphere_name: {
+          type: String,
+          default: "",
+        },
+        sphere_cl: {
+          type: Number,
+          default: 0,
+        },
+        sphere_dc: {
+          type: Number,
+          default: 0,
+        },
+      },
+    ],
+    sphere_talents: [
+      {
+        // _id: ObjectId(),
+        talent_name: {
+          type: String,
+          default: "",
+        },
+        talent_description: {
+          type: String,
+          default: "",
+        },
+        talent_type: {
+          type: String,
+          default: "",
+        },
+      },
+    ],
+    sphere_drawbacks: [
+      {
+        // _id: ObjectId(),
+        drawback_name: {
+          type: String,
+          default: "",
+        },
+        drawback_description: {
+          type: String,
+          default: "",
+        },
+        drawback_type: {
+          type: String,
+          default: "",
+        },
+      },
+    ],
+    // _id: ObjectId(),
+    martial_practitioner_modifier: {
+      type: String,
+      default: "",
+    },
+    martial_base_spheres: [
+      {
+        // _id: ObjectId(),
+        sphere_name: {
+          type: String,
+          default: "",
+        },
+        sphere_level: {
+          type: Number,
+          default: 0,
+        },
+        sphere_dc: {
+          type: Number,
+          default: 0,
+        },
+        associated_skill: {
+          type: String,
+          default: "",
+        },
+        free_skill_ranks: {
+          type: Number,
+          default: 0,
+        },
+      },
+    ],
+    martial_sphere_talents: [
+      {
+        // _id: ObjectId(),
+        talent_name: {
+          type: String,
+          default: "",
+        },
+        talent_description: {
+          type: String,
+          default: "",
+        },
+        talent_description: {
+          type: String,
+          default: "",
+        },
+      },
+    ],
+    martial_sphere_drawbacks: [
+      {
+        // _id: ObjectId(),
+        drawback_name: {
+          type: String,
+          default: "",
+        },
+        drawback_description: {
+          type: String,
+          default: "",
+        },
+        drawback_type: {
+          type: String,
+          default: "",
+        },
       },
     ],
     has_martial_focus: {
       type: Boolean,
       default: true,
     },
-    veilweaving: [
+    has_second_martial_focus: {
+      type: Boolean,
+      default: true,
+    },
+    base_essence: {
+      type: Number,
+      default: 0,
+    },
+    uninvested_essense: {
+      type: Number,
+      default: 0,
+    },
+    maximum_veils: {
+      type: Number,
+      default: 0,
+    },
+    available_binds: {
+      type: String,
+      default: "",
+    },
+    veils: [
       {
-        base_essence: {
-          type: Number,
-          default: 0,
-        },
-        uninvested_essense: {
-          type: Number,
-          default: 0,
-        },
-        maximum_veils: {
-          type: Number,
-          default: 0,
-        },
-        available_binds: {
+        veil_name: {
           type: String,
           default: "",
         },
-        veils: [
-          {
-            veil_name: {
-              type: String,
-              default: "",
-            },
-            veil_location: {
-              type: String,
-              default: "",
-            },
-            veil_description: {
-              type: String,
-              default: "",
-            },
-            max_invested_essense: {
-              type: Number,
-              default: 0,
-            },
-            current_invested_essense: {
-              type: Number,
-              default: 0,
-            },
-            is_shaped: {
-              type: Boolean,
-              default: false,
-            },
-            is_bound: {
-              type: Boolean,
-              default: false,
-            },
-          },
-        ],
+        veil_location: {
+          type: String,
+          default: "",
+        },
+        veil_description: {
+          type: String,
+          default: "",
+        },
+        max_invested_essense: {
+          type: Number,
+          default: 0,
+        },
+        current_invested_essense: {
+          type: Number,
+          default: 0,
+        },
+        is_shaped: {
+          type: Boolean,
+          default: false,
+        },
+        is_bound: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
   }

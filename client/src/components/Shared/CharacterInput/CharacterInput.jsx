@@ -11,11 +11,11 @@ class CharacterInput extends Component {
     return (
       <div className={`col-md-${this.props.width}`}>
         <div className="input-group mb-3 text-box">
-          <div className="input-group-prepend">
-            <div className="input-group-text">{this.props.label}</div>
+          <div className="input-group-prepend ">
+            <div className="input-group-text pb-1 display-style">{this.props.label}</div>
           </div>
           <textarea
-            className="form-control"
+            className="form-control text-center"
             rows="1"
             value={this.props.value}
             onChange={this.handleEvent}

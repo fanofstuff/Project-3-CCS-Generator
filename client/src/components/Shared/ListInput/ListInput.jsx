@@ -11,7 +11,7 @@ class ListInput extends Component {
       <div className={`col-md-${this.props.width}`}>
         <div className="input-group mb-3 text-box">
           <div className="input-group-prepend">
-            <div className="input-group-text">{this.props.label}</div>
+            <div className="input-group-text display-style">{this.props.label}</div>
           </div>
           <textarea
             className="form-control"

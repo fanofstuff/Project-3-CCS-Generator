@@ -6,10 +6,10 @@ const ModifierOutput = (props) => {
     <div className={`col-md-${props.width}`}>
       <div className="input-group mb-3 text-box">
         <div className="input-group-prepend">
-          <div className="input-group-text">{props.label}</div>
+          <div className="input-group-text pb-1 display-style">{props.label}</div>
         </div>
         <textarea
-          className="form-control"
+          className="form-control text-center"
           rows="1"
           value={props.value}
           disabled={true}
