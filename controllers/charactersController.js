@@ -29,7 +29,7 @@ router.put("/:id", (req, res) => {
       res.status(500);
       res.json({
         error: true,
-        message: "No characters found",
+        message: "Character could not be updated",
       });
     });
 });
@@ -44,7 +44,7 @@ router.post("/", (req, res) => {
       res.status(500);
       res.json({
         error: true,
-        message: "No characters found",
+        message: "Character could not be created",
       });
     });
 });
@@ -59,7 +59,7 @@ router.delete("/:id", (req, res) => {
       res.status(500);
       res.json({
         error: true,
-        message: "No characters found",
+        message: "Character could not be deleted",
       });
     });
 });

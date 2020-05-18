@@ -7,13 +7,10 @@ const jwt = require("jsonwebtoken");
  * Root POST route to validate user credentials.
  */
 router.post("/", (req, res) => {
-  // console.log("Authentication POST route");
-  // console.log(req.body.liEmail);
   db.User.findOne({
     email: req.body.liEmail,
   })
     .then(async (foundUser) => {
-      // console.log(foundUser);
       if (foundUser && foundUser.password === req.body.liPassword) {
         const token = await jwt.sign(
           {
@@ -23,7 +20,6 @@ router.post("/", (req, res) => {
           },
           process.env.REACT_APP_SECRET_KEY
         );
-        // console.log(token);
         await res.json({
           success: true,
           data: token,

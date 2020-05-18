@@ -1,6 +1,8 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 
+// Used solely for Base Sphere storage, both magic and martial. 
+
 const BaseCastingSphere = (props) => {
   const [isOpen, setIsOpen] = React.useState(false);
 

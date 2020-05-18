@@ -1,6 +1,9 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 
+// Used for displaying feats, traits, racial abilities, and character abilities. 
+// Also found use with Sphere abilities. 
+
 const AbilityDisplay = (props) => {
   const [isOpen, setIsOpen] = React.useState(false);
 

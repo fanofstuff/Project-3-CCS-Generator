@@ -2,13 +2,10 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 const jwt = require("jsonwebtoken");
-const mongo = require("mongodb");
-const mongoose = require("mongoose");
 
 router.post("/", (req, res) => {
   const email = req.body.suEmail ? req.body.suEmail.trim() : "";
   const password = req.body.suPassword ? req.body.suPassword.trim() : "";
-  // console.log(process.env.REACT_APP_SECRET_KEY)
 
   if (email && password) {
     db.User.create({ email, password, character: [] })
@@ -21,7 +18,6 @@ router.post("/", (req, res) => {
           },
           process.env.REACT_APP_SECRET_KEY
         );
-        // console.log(token);
         await res.json({
           success: true,
           data: token,
@@ -60,7 +56,6 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  console.log(req.body.value);
   var characterData = { _id: req.body.value };
   db.User.findByIdAndUpdate(
     req.params.id,
@@ -70,7 +65,6 @@ router.put("/:id", (req, res) => {
     }
   )
     .then((characters) => {
-      console.log(characters);
       res.json(characters);
     })
     .catch((err) => {
@@ -78,7 +72,7 @@ router.put("/:id", (req, res) => {
       res.status(500);
       res.json({
         error: true,
-        message: "No characters found",
+        message: "Character not added",
       });
     });
 });
@@ -99,7 +93,7 @@ router.put("/remove/:id", (req, res) => {
       res.status(500);
       res.json({
         error: true,
-        message: "No characters found",
+        message: "Character not deleted",
       });
     });
 });

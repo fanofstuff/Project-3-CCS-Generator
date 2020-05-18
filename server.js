@@ -15,8 +15,6 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/pathfinder", {
   useUnifiedTopology: true,
 });
 
-const db = require("./models");
-
 const connection = mongoose.connection;
 connection.on("connected", () => {
   console.log("Mongoose connected successfully");

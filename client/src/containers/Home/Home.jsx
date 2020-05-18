@@ -11,7 +11,6 @@ class Home extends Component {
   createNewCharacter = () => {
     API.createCharacter({})
       .then((response) => {
-        console.log(response.data._id);
         var charId = response.data._id;
         this.assignCharacter(charId);
       })
@@ -22,8 +21,7 @@ class Home extends Component {
     var url = window.location.pathname;
     var id = url.substring(url.lastIndexOf("/") + 1);
     API.assignCharacter(id, charId)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         window.location.href = `/characters/${charId}`;
       })
       .catch((err) => console.log(err));
@@ -33,7 +31,6 @@ class Home extends Component {
     var url = window.location.pathname;
     var id = url.substring(url.lastIndexOf("/") + 1);
     API.getYourCharacters(id).then((response) => {
-      console.log(response);
       response.data.characters.forEach((element) => {
         this.setState({
           characters: [...this.state.characters, element],

@@ -40,7 +40,9 @@ const EquipmentDisplay = (props) => {
             <div className={"col-md-12"}>
               <div className="input-group mb-3 text-box">
                 <div className="input-group-prepend">
-                  <div className="input-group-text display-style">Item Name</div>
+                  <div className="input-group-text display-style">
+                    Item Name
+                  </div>
                 </div>
                 <textarea
                   className="form-control"
@@ -57,7 +59,9 @@ const EquipmentDisplay = (props) => {
             <div className={"col-md-12"}>
               <div className="input-group mb-3 text-box">
                 <div className="input-group-prepend">
-                  <div className="input-group-text display-style">Item Description</div>
+                  <div className="input-group-text display-style">
+                    Item Description
+                  </div>
                 </div>
                 <textarea
                   className="form-control"
@@ -74,7 +78,9 @@ const EquipmentDisplay = (props) => {
             <div className={"col-md-4"}>
               <div className="input-group mb-3 text-box">
                 <div className="input-group-prepend">
-                  <div className="input-group-text display-style">Item Value</div>
+                  <div className="input-group-text display-style">
+                    Item Value
+                  </div>
                 </div>
                 <textarea
                   className="form-control"

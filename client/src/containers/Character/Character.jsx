@@ -36,16 +36,13 @@ class Character extends Component {
   saveCharacter = (event) => {
     event.preventDefault();
     API.saveCharacter(window.location.pathname, this.state.characterData)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         this.setState({ saved: true });
         setTimeout(() => {
           this.setState({ saved: false });
         }, 2000);
-        // add something to inform the user of successful save
       })
       .catch((err) => console.log(err));
-    // ditto for unsuccessful save
   };
 
   componentDidMount() {
@@ -98,12 +95,6 @@ class Character extends Component {
     const section = event.target.getAttribute("section");
     const id = event.target.getAttribute("index");
     const value = !JSON.parse(event.target.value);
-
-    console.log(event.target);
-    console.log(name);
-    console.log(section);
-    console.log(id);
-    console.log(value);
     this.setState((state) => {
       const newArray = update(state, {
         characterData: {
@@ -131,7 +122,6 @@ class Character extends Component {
   onAddItem = (event) => {
     const name = event.target.getAttribute("name");
     const section = event.target.getAttribute("section");
-    console.log(event.target);
     this.setState((state) => {
       const newArray = update(state, {
         characterData: {
@@ -152,7 +142,6 @@ class Character extends Component {
     const reach = event.target.getAttribute("reach");
     const types = event.target.getAttribute("types");
     const notes = event.target.getAttribute("notes");
-    console.log(event.target);
     this.setState((state) => {
       const newArray = update(state, {
         characterData: {
@@ -186,7 +175,6 @@ class Character extends Component {
     const types = event.target.getAttribute("types");
     const ammunition = event.target.getAttribute("ammunition");
     const notes = event.target.getAttribute("notes");
-    console.log(event.target);
     this.setState((state) => {
       const newArray = update(state, {
         characterData: {

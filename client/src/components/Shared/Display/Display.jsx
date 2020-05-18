@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import ListInput from "../ListInput/ListInput";
 import CharacterInput from "../CharacterInput/CharacterInput";
-import "./Display.css"
+import "./Display.css";
 
 const Display = ({
   onTextChange,
@@ -81,7 +81,12 @@ const Display = ({
           </Modal.Body>
           <Modal.Footer>
             {/* <button onClick={hideModal}>Cancel</button> */}
-            <button className="btn btn-primary positioning-style" onClick={saveAndHideModal}>Save</button>
+            <button
+              className="btn btn-primary positioning-style"
+              onClick={saveAndHideModal}
+            >
+              Save
+            </button>
           </Modal.Footer>
         </Modal>
       </div>

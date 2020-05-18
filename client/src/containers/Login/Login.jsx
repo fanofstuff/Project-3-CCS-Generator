@@ -33,13 +33,11 @@ class Home extends Component {
     const suPassword = this.state.suPassword;
     API.signUp({ suEmail, suPassword })
       .then(async (response) => {
-        // console.log(response.data.data);
         if (response.data.success) {
           const decoded = await jwt.verify(
             response.data.data,
             process.env.REACT_APP_SECRET_KEY
           );
-          // console.log(decoded);
           await sessionStorage.setItem("jwt", response.data.data);
           await this.props.checkForToken();
           await this.props.history.push(`/home/${decoded.id}`);
@@ -58,13 +56,11 @@ class Home extends Component {
     const liPassword = this.state.liPassword;
     API.login({ liEmail, liPassword })
       .then(async (response) => {
-        // console.log(response.data.data);
         if (response.data.success) {
           const decoded = await jwt.verify(
             response.data.data,
             process.env.REACT_APP_SECRET_KEY
           );
-          // console.log(decoded);
           await sessionStorage.setItem("jwt", response.data.data);
           await this.props.checkForToken();
           await this.props.history.push(`/home/${decoded.id}`);
@@ -150,7 +146,7 @@ class Home extends Component {
                     onChange={(e) => {this.handleInputChange(e)}}
                   />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary display-style border border-secondary">
                   Submit
                 </button>
               </form>
@@ -201,7 +197,7 @@ class Home extends Component {
                     onChange={(e) => {this.handleInputChange(e)}}
                   />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary display-style border border-secondary">
                   Submit
                 </button>
               </form>

@@ -1,6 +1,8 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 
+// Used for displaying attack information, both ranged and melee. 
+
 const AttackDisplay = (props) => {
   const [isOpen, setIsOpen] = React.useState(false);
 

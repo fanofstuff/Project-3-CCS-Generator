@@ -11,9 +11,9 @@ const UserSchema = new Schema({
   characters: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Character"
-    }
-  ]
+      ref: "Character",
+    },
+  ],
 });
 
 const User = mongoose.model("User", UserSchema);

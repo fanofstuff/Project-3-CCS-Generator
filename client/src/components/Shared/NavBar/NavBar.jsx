@@ -10,10 +10,17 @@ const NavBar = (props) => {
         </a>
         {props.isLoggedIn ? (
           <>
-            <a className="navbar-brand navbar-link-style" href={`/home/${props.userObject.id}`}>
+            <a
+              className="navbar-brand navbar-link-style"
+              href={`/home/${props.userObject.id}`}
+            >
               User Profile
             </a>
-            <a onClick={props.logOutUser} className="navbar-brand navbar-link-style" href="/">
+            <a
+              onClick={props.logOutUser}
+              className="navbar-brand navbar-link-style"
+              href="/"
+            >
               Sign Out
             </a>
           </>
