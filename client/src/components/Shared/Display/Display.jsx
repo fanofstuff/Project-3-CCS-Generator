@@ -65,7 +65,8 @@ const Display = ({
               return (
                 <ListInput
                   key={index}
-                  id={index}
+                  id={"inputLine" + index}
+                  index={index}
                   onTextChange={onTextChange}
                   deleteInputRow={deleteInputRow}
                   value={element[name]}

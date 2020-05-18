@@ -11,3 +11,10 @@
   font-size: 64px;
   line-height: 100px;
 }
+
+.color-style {
+  color: #d5d58f;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+}

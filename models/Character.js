@@ -646,14 +646,6 @@ const CharacterSchema = new Schema(
           type: Number,
           default: 0,
         },
-        associated_skill: {
-          type: String,
-          default: "",
-        },
-        free_skill_ranks: {
-          type: Number,
-          default: 0,
-        },
       },
     ],
     martial_sphere_talents: [
@@ -698,11 +690,19 @@ const CharacterSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    veilweaving_modifier: {
+      type: String,
+      default: "",
+    },
+    veilweaving_level: {
+      type: Number,
+      default: 0,
+    },
     base_essence: {
       type: Number,
       default: 0,
     },
-    uninvested_essense: {
+    uninvested_essence: {
       type: Number,
       default: 0,
     },
@@ -724,15 +724,11 @@ const CharacterSchema = new Schema(
           type: String,
           default: "",
         },
-        veil_description: {
-          type: String,
-          default: "",
-        },
-        max_invested_essense: {
+        max_invested_essence: {
           type: Number,
           default: 0,
         },
-        current_invested_essense: {
+        current_invested_essence: {
           type: Number,
           default: 0,
         },

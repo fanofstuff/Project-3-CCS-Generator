@@ -17,6 +17,7 @@ import BaseCastingSphere from "../../components/Shared/BaseCastingSphere/BaseCas
 class Character extends Component {
   state = {
     characterData: {},
+    saved: false,
   };
 
   getCharacterInfo = () => {
@@ -37,6 +38,10 @@ class Character extends Component {
     API.saveCharacter(window.location.pathname, this.state.characterData)
       .then((response) => {
         console.log(response);
+        this.setState({ saved: true });
+        setTimeout(() => {
+          this.setState({ saved: false });
+        }, 2000);
         // add something to inform the user of successful save
       })
       .catch((err) => console.log(err));
@@ -73,7 +78,7 @@ class Character extends Component {
     const value = event.value;
     const name = event.name;
     const section = event.getAttribute("section");
-    const id = event.id;
+    const id = event.getAttribute("index");
     this.setState((state) => {
       const newArray = update(state, {
         characterData: {
@@ -91,7 +96,7 @@ class Character extends Component {
   handleCheckbox = (event) => {
     const name = event.target.name;
     const section = event.target.getAttribute("section");
-    const id = event.target.id;
+    const id = event.target.getAttribute("index");
     const value = !JSON.parse(event.target.value);
 
     console.log(event.target);
@@ -224,6 +229,36 @@ class Character extends Component {
                 [name]: "",
                 [total]: "+0",
                 [ranks]: "0",
+              },
+            ],
+          },
+        },
+      });
+      return newArray;
+    });
+  };
+
+  onAddVeil = (event) => {
+    event.preventDefault();
+    const section = event.target.getAttribute("section");
+    const label = event.target.getAttribute("label");
+    const location = event.target.getAttribute("location");
+    const max = event.target.getAttribute("max");
+    const current = event.target.getAttribute("current");
+    const shaped = event.target.getAttribute("shaped");
+    const bound = event.target.getAttribute("bound");
+    this.setState((state) => {
+      const newArray = update(state, {
+        characterData: {
+          [section]: {
+            $push: [
+              {
+                [label]: "",
+                [location]: "",
+                [max]: "1",
+                [current]: "0",
+                [shaped]: false,
+                [bound]: false,
               },
             ],
           },
@@ -933,7 +968,8 @@ class Character extends Component {
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"meleeAttack" + index}
+                  index={index}
                   label={element.ma_label}
                   labelName={"ma_label"}
                   totalAttackBonus={element.ma_total_attack_bonus}
@@ -980,7 +1016,8 @@ class Character extends Component {
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"rangedAttack" + index}
+                  index={index}
                   label={element.ra_label}
                   labelName={"ra_label"}
                   totalAttackBonus={element.ra_total_attack_bonus}
@@ -1052,7 +1089,8 @@ class Character extends Component {
                         <td className="border border-dark">
                           <div className="checkbox">
                             <input
-                              id={index}
+                              id={"classSkill" + index}
+                              index={index}
                               type="checkbox"
                               name={"class_skill"}
                               value={element.class_skill}
@@ -1067,7 +1105,8 @@ class Character extends Component {
                         <td className="border border-dark">
                           <div className="checkbox">
                             <input
-                              id={index}
+                              id={"trainedOnly" + index}
+                              index={index}
                               type="checkbox"
                               name={"trained_only"}
                               value={element.trained_only}
@@ -1086,7 +1125,8 @@ class Character extends Component {
                               name={"skill_name"}
                               value={element.skill_name || ""}
                               section={"skills"}
-                              id={index}
+                              id={"skillName" + index}
+                              index={index}
                               onChange={this.handleSkills}
                               className="w-100 p-1 px-3 text-center"
                             />
@@ -1099,7 +1139,8 @@ class Character extends Component {
                               name={"skill_total"}
                               value={element.skill_total || ""}
                               section={"skills"}
-                              id={index}
+                              id={"skillTotal" + index}
+                              index={index}
                               onChange={this.handleSkills}
                               className="w-25 p-1 px-3 text-center"
                             />
@@ -1110,9 +1151,10 @@ class Character extends Component {
                             <input
                               type="text"
                               name={"skill_ranks"}
-                              value={element.skill_ranks || ""}
+                              value={element.skill_ranks || "0"}
                               section={"skills"}
-                              id={index}
+                              id={"skillRanks" + index}
+                              index={index}
                               onChange={this.handleSkills}
                               className="w-25 p-1 px-3 text-center"
                             />
@@ -1197,7 +1239,8 @@ class Character extends Component {
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"tradeGood" + index}
+                  index={index}
                   label={element.goods_label}
                   labelName={"goods_label"}
                   description={element.goods_description}
@@ -1229,7 +1272,8 @@ class Character extends Component {
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"adventuringGear" + index}
+                  index={index}
                   label={element.gear_label}
                   labelName={"gear_label"}
                   description={element.gear_description}
@@ -1261,7 +1305,8 @@ class Character extends Component {
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"otherTreasure" + index}
+                  index={index}
                   label={element.treasure_label}
                   labelName={"treasure_label"}
                   description={element.treasure_description}
@@ -1293,7 +1338,8 @@ class Character extends Component {
                 onTextChange={this.handleSubsetData}
                 saveCharacter={this.saveCharacter}
                 key={index}
-                id={index}
+                id={"feat" + index}
+                index={index}
                 label={element.feat_name}
                 labelName={"feat_name"}
                 description={element.feat_description}
@@ -1322,7 +1368,8 @@ class Character extends Component {
                 onTextChange={this.handleSubsetData}
                 saveCharacter={this.saveCharacter}
                 key={index}
-                id={index}
+                id={"trait" + index}
+                index={index}
                 label={element.trait_name}
                 labelName={"trait_name"}
                 description={element.trait_description}
@@ -1352,7 +1399,8 @@ class Character extends Component {
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"racialTrait" + index}
+                  index={index}
                   label={element.trait_name}
                   labelName={"trait_name"}
                   description={element.trait_description}
@@ -1383,7 +1431,8 @@ class Character extends Component {
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"classAbility" + index}
+                  index={index}
                   label={element.ability_name}
                   labelName={"ability_name"}
                   description={element.ability_description}
@@ -1445,7 +1494,8 @@ class Character extends Component {
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"bcs" + index}
+                  index={index}
                   label={element.sphere_name}
                   labelName={"sphere_name"}
                   cl={element.sphere_cl}
@@ -1476,7 +1526,8 @@ class Character extends Component {
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"cst" + index}
+                  index={index}
                   label={element.talent_name}
                   labelName={"talent_name"}
                   description={element.talent_description}
@@ -1507,7 +1558,8 @@ class Character extends Component {
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"csd" + index}
+                  index={index}
                   label={element.drawback_name}
                   labelName={"drawback_name"}
                   description={element.drawback_description}
@@ -1528,20 +1580,13 @@ class Character extends Component {
             name="martial_practitioner_modifier"
             width={3}
           />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.total_sp}
-            label={"Total SP"}
-            name="total_sp"
-            width={3}
-          />
-          <div className={`col-md-2`}>
+          <div className={`col-md-3`}>
             <div className="btn btn-primary display-style w-75">1st Focus?</div>
-            <div className="checkbox ml-3 pt-2 float-right">
+            <div className="checkbox pt-2 float-right">
               <input
                 type="checkbox"
                 name={"has_martial_focus"}
-                value={this.state.characterData.has_martial_focus }
+                value={this.state.characterData.has_martial_focus}
                 onChange={this.handleBasicCheckbox}
                 {...(this.state.characterData.has_martial_focus
                   ? { checked: true }
@@ -1549,26 +1594,32 @@ class Character extends Component {
               />
             </div>
           </div>
-
+          <div className="col-md-3">
+            <div className="btn btn-primary display-style w-75">2nd Focus?</div>
+            <div className="checkbox pt-2 float-right">
+              <input
+                type="checkbox"
+                name={"has_second_martial_focus"}
+                value={this.state.characterData.has_second_martial_focus}
+                onChange={this.handleBasicCheckbox}
+                {...(this.state.characterData.has_second_martial_focus
+                  ? { checked: true }
+                  : {})}
+              />
+            </div>
+          </div>
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.current_sp}
-            label={"Current SP"}
-            name="current_sp"
-            width={3}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.base_cl}
-            label={"Base CL"}
-            name="base_cl"
+            value={this.state.characterData.bab}
+            label={"Base Practitioner Level"}
+            name="bab"
             width={3}
           />
           <div className="col-md-12">
             <button
-              section={"base_spheres"}
+              section={"martial_base_spheres"}
               label={"sphere_name"}
-              cl={"sphere_cl"}
+              cl={"sphere_level"}
               dc={"sphere_dc"}
               onClick={this.onAddBCS}
               className="btn btn-primary display-style float-right mb-3"
@@ -1576,28 +1627,29 @@ class Character extends Component {
               Add Base Sphere
             </button>
           </div>
-          {(this.state.characterData.base_spheres || []).map(
+          {(this.state.characterData.martial_base_spheres || []).map(
             (element, index) => {
               return (
                 <BaseCastingSphere
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"bms" + index}
+                  index={index}
                   label={element.sphere_name}
                   labelName={"sphere_name"}
-                  cl={element.sphere_cl}
-                  clName={"sphere_cl"}
+                  cl={element.sphere_level}
+                  clName={"sphere_level"}
                   dc={element.sphere_dc}
                   dcName={"sphere_dc"}
-                  section={"base_spheres"}
+                  section={"martial_base_spheres"}
                 />
               );
             }
           )}
           <div className="col-md-12">
             <button
-              section={"sphere_talents"}
+              section={"martial_sphere_talents"}
               label={"talent_name"}
               description={"talent_description"}
               type={"talent_type"}
@@ -1607,28 +1659,29 @@ class Character extends Component {
               Add a Sphere Talent
             </button>
           </div>
-          {(this.state.characterData.sphere_talents || []).map(
+          {(this.state.characterData.martial_sphere_talents || []).map(
             (element, index) => {
               return (
                 <AbilityDisplay
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"mst" + index}
+                  index={index}
                   label={element.talent_name}
                   labelName={"talent_name"}
                   description={element.talent_description}
                   descriptionName={"talent_description"}
                   type={element.talent_type}
                   typeName={"talent_type"}
-                  section={"sphere_talents"}
+                  section={"martial_sphere_talents"}
                 />
               );
             }
           )}
           <div className="col-md-12">
             <button
-              section={"sphere_drawbacks"}
+              section={"martial_sphere_drawbacks"}
               label={"drawback_name"}
               description={"drawback_description"}
               type={"drawback_type"}
@@ -1638,53 +1691,201 @@ class Character extends Component {
               Add a Sphere Drawback
             </button>
           </div>
-          {(this.state.characterData.sphere_drawbacks || []).map(
+          {(this.state.characterData.martial_sphere_drawbacks || []).map(
             (element, index) => {
               return (
                 <AbilityDisplay
                   onTextChange={this.handleSubsetData}
                   saveCharacter={this.saveCharacter}
                   key={index}
-                  id={index}
+                  id={"msd" + index}
+                  index={index}
                   label={element.drawback_name}
                   labelName={"drawback_name"}
                   description={element.drawback_description}
                   descriptionName={"drawback_description"}
                   type={element.drawback_type}
                   typeName={"drawback_type"}
-                  section={"sphere_drawbacks"}
+                  section={"martial_sphere_drawbacks"}
                 />
               );
             }
           )}
+        </Section>
+        <Section title="Veilweaving">
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.sphere_practitioning}
-            label={"Sphere Practitioning SECTION"}
-            name="adventuring_gear"
-            width={6}
-          />
-          <CharacterInput
-            onTextChange={this.handleEvent}
-            value={this.state.characterData.has_martial_focus}
-            label={"Martial Focus"}
-            name="has_martial_focus"
+            value={this.state.characterData.veilweaving_level}
+            label={"Veilweaving Level"}
+            name="veilweaving_level"
             width={3}
           />
           <CharacterInput
             onTextChange={this.handleEvent}
-            value={this.state.characterData.veilweaving}
-            label={"Veilweaving SECTION"}
-            name="veilweaving"
-            width={12}
+            value={this.state.characterData.veilweaving_modifier}
+            label={"Veilweaving Mod"}
+            name="veilweaving_modifier"
+            width={3}
           />
+          <CharacterInput
+            onTextChange={this.handleEvent}
+            value={this.state.characterData.base_essence}
+            label={"Total Essence"}
+            name="base_essence"
+            width={3}
+          />
+          <CharacterInput
+            onTextChange={this.handleEvent}
+            value={this.state.characterData.uninvested_essence}
+            label={"Uninvested Essence"}
+            name="uninvested_essence"
+            width={3}
+          />
+          <CharacterInput
+            onTextChange={this.handleEvent}
+            value={this.state.characterData.maximum_veils}
+            label={"Maximum Veils/Once"}
+            name="maximum_veils"
+            width={3}
+          />
+          <CharacterInput
+            onTextChange={this.handleEvent}
+            value={this.state.characterData.available_binds}
+            label={"Available Binds"}
+            name="available_binds"
+            width={9}
+          />
+          <div className="col-md-12">
+            <Table hover>
+              <thead className="display-style">
+                <tr>
+                  <th className="border border-dark">Name</th>
+                  <th className="border border-dark">Location</th>
+                  <th className="border border-dark">Max Essence</th>
+                  <th className="border border-dark">Current Essence</th>
+                  <th className="border border-dark">Shaped?</th>
+                  <th className="border border-dark">Bound?</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(this.state.characterData.veils || []).map(
+                  (element, index) => {
+                    return (
+                      <tr key={index} className="gentler-panels">
+                        <td className="border border-dark">
+                          <div>
+                            <input
+                              type="text"
+                              name={"veil_name"}
+                              value={element.veil_name || ""}
+                              section={"veils"}
+                              id={"veilName" + index}
+                              index={index}
+                              onChange={this.handleSkills}
+                              className="w-100 p-1 px-3 text-center"
+                            />
+                          </div>
+                        </td>
+                        <td className="border border-dark">
+                          <div>
+                            <input
+                              type="text"
+                              name={"veil_location"}
+                              value={element.veil_location || ""}
+                              section={"veils"}
+                              id={"veilLocation" + index}
+                              index={index}
+                              onChange={this.handleSkills}
+                              className="w-100 p-1 px-3 text-center"
+                            />
+                          </div>
+                        </td>
+                        <td className="border border-dark">
+                          <div>
+                            <input
+                              type="text"
+                              name={"max_invested_essence"}
+                              value={element.max_invested_essence || ""}
+                              section={"veils"}
+                              id={"maxEssence" + index}
+                              index={index}
+                              onChange={this.handleSkills}
+                              className="w-50 p-1 px-3 text-center"
+                            />
+                          </div>
+                        </td>
+                        <td className="border border-dark">
+                          <div>
+                            <input
+                              type="text"
+                              name={"current_invested_essence"}
+                              value={element.current_invested_essence || "0"}
+                              section={"veils"}
+                              id={"currentEssence" + index}
+                              index={index}
+                              onChange={this.handleSkills}
+                              className="w-50 p-1 px-3 text-center"
+                            />
+                          </div>
+                        </td>
+                        <td className="border border-dark">
+                          <div className="checkbox">
+                            <input
+                              id={"shaped" + index}
+                              index={index}
+                              type="checkbox"
+                              name={"is_shaped"}
+                              value={element.is_shaped}
+                              section={"veils"}
+                              onChange={this.handleCheckbox}
+                              {...(element.is_shaped ? { checked: true } : {})}
+                            />
+                          </div>
+                        </td>
+                        <td className="border border-dark">
+                          <div className="checkbox">
+                            <input
+                              id={"bound" + index}
+                              index={index}
+                              type="checkbox"
+                              name={"is_bound"}
+                              value={element.is_bound}
+                              section={"veils"}
+                              onChange={this.handleCheckbox}
+                              {...(element.is_bound ? { checked: true } : {})}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  }
+                )}
+              </tbody>
+            </Table>
+          </div>
+
+          <div className="col-md-12">
+            <button
+              section={"veils"}
+              label={"veil_name"}
+              location={"veil_location"}
+              max={"max_invested_essence"}
+              current={"current_invested_essence"}
+              shaped={"is_shaped"}
+              bound={"is_bound"}
+              onClick={this.onAddVeil}
+              className="btn btn-primary display-style float-right mb-3"
+            >
+              Add a Veil
+            </button>
+          </div>
         </Section>
         <br />
         <br />
         <br />
         <br />
         <br />
-        <Footer saveCharacter={this.saveCharacter} />
+        <Footer saveCharacter={this.saveCharacter} saved={this.state.saved} />
       </>
     );
   }

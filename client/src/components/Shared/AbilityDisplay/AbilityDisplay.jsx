@@ -45,7 +45,8 @@ const AbilityDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"name" + props.id}
+                  index={props.index}
                   value={props.label}
                   onChange={handleChange}
                   name={props.labelName}
@@ -61,7 +62,8 @@ const AbilityDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"type" + props.id}
+                  index={props.index}
                   value={props.type}
                   onChange={handleChange}
                   name={props.typeName}
@@ -77,7 +79,8 @@ const AbilityDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="10"
-                  id={props.id}
+                  id={"description" + props.id}
+                  index={props.index}
                   value={props.description}
                   onChange={handleChange}
                   name={props.descriptionName}

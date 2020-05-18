@@ -45,7 +45,8 @@ const EquipmentDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"name" + props.id}
+                  index={props.index}
                   value={props.label}
                   onChange={handleChange}
                   name={props.labelName}
@@ -61,7 +62,8 @@ const EquipmentDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="5"
-                  id={props.id}
+                  id={"description" + props.id}
+                  index={props.index}
                   value={props.description}
                   onChange={handleChange}
                   name={props.descriptionName}
@@ -77,7 +79,8 @@ const EquipmentDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"value" + props.id}
+                  index={props.index}
                   value={props.worth}
                   onChange={handleChange}
                   name={props.worthName}

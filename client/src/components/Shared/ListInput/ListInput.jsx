@@ -17,6 +17,7 @@ class ListInput extends Component {
             className="form-control"
             rows="1"
             id={this.props.id}
+            index={this.props.index}
             value={this.props.value}
             onChange={this.handleEvent}
             name={this.props.name}

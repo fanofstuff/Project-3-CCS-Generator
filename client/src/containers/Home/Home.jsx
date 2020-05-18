@@ -50,14 +50,14 @@ class Home extends Component {
     return (
       <>
         <div className="container">
-          <div className="row">
+          <div className="row mb-3">
             <div className="col homepage-cover">
               <h1 className="text-style">Characters</h1>
             </div>
           </div>
         </div>
         <div className="container">
-          <div className="row">
+          <div className="row mb-3">
             {this.state.characters.map((character) => (
               <CharacterCard
                 key={character._id}

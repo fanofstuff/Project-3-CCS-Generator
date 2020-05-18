@@ -45,7 +45,8 @@ const BaseCastingSphere = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"name" + props.id}
+                  index={props.index}
                   value={props.label}
                   onChange={handleChange}
                   name={props.labelName}
@@ -61,7 +62,8 @@ const BaseCastingSphere = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"cl" + props.id}
+                  index={props.index}
                   value={props.cl}
                   onChange={handleChange}
                   name={props.clName}
@@ -77,7 +79,8 @@ const BaseCastingSphere = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"dc" + props.id}
+                  index={props.index}
                   value={props.dc}
                   onChange={handleChange}
                   name={props.dcName}

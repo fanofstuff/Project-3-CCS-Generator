@@ -1,7 +1,7 @@
 import React from "react";
 import "./Footer.css";
 
-const Footer = ({saveCharacter}) => {
+const Footer = ({ saveCharacter, saved }) => {
   return (
     <footer className="footer">
       <div className="container">
@@ -13,7 +13,7 @@ const Footer = ({saveCharacter}) => {
               name="action"
               onClick={saveCharacter}
             >
-              Save
+              {saved ? "Saved!" : "Save"}
             </button>
           </div>
         </div>

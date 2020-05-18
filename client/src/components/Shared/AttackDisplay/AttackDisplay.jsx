@@ -47,7 +47,8 @@ const AttackDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"name" + props.id}
+                  index={props.index}
                   value={props.label}
                   onChange={handleChange}
                   name={props.labelName}
@@ -63,7 +64,8 @@ const AttackDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"attack" + props.id}
+                  index={props.index}
                   value={props.totalAttackBonus}
                   onChange={handleChange}
                   name={props.totalAttackBonusName}
@@ -79,7 +81,8 @@ const AttackDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"damage" + props.id}
+                  index={props.index}
                   value={props.totalDamage}
                   onChange={handleChange}
                   name={props.totalDamageName}
@@ -95,7 +98,8 @@ const AttackDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"crit" + props.id}
+                  index={props.index}
                   value={props.criticals}
                   onChange={handleChange}
                   name={props.criticalsName}
@@ -111,7 +115,8 @@ const AttackDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"range" + props.id}
+                  index={props.index}
                   value={props.range}
                   onChange={handleChange}
                   name={props.rangeName}
@@ -127,7 +132,8 @@ const AttackDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="1"
-                  id={props.id}
+                  id={"damageType" + props.id}
+                  index={props.index}
                   value={props.damageTypes}
                   onChange={handleChange}
                   name={props.damageTypesName}
@@ -139,12 +145,13 @@ const AttackDisplay = (props) => {
               <div className={"col-md-6"}>
                 <div className="input-group mb-3 text-box">
                   <div className="input-group-prepend">
-                    <div className="input-group-text display-style">Weapon Name</div>
+                    <div className="input-group-text display-style">Ammunition</div>
                   </div>
                   <textarea
                     className="form-control"
                     rows="1"
-                    id={props.id}
+                    id={"ammunition" + props.id}
+                    index={props.index}
                     value={props.ammunition}
                     onChange={handleChange}
                     name={props.ammunitionName}
@@ -161,7 +168,8 @@ const AttackDisplay = (props) => {
                 <textarea
                   className="form-control"
                   rows="10"
-                  id={props.id}
+                  id={"notes" + props.id}
+                  index={props.index}
                   value={props.notes}
                   onChange={handleChange}
                   name={props.notesName}
